@@ -1113,8 +1113,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17437558, y: 1.4148556e-15, z: -2.5055497e-16, w: 0.9846792}
-  m_LocalPosition: {x: 0, y: 3.022, z: 1.1100006}
+  m_LocalRotation: {x: 0.17437558, y: 0.000000008259866, z: -0.0000000014627289, w: 0.9846792}
+  m_LocalPosition: {x: -4.022, y: 3.022, z: 7.4300003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1788,7 +1788,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 4300000, guid: e8ba51a934eb276468729107e5d3143f, type: 3}
+  m_Mesh: {fileID: 289301614986012343, guid: 19570f2b8c301b54a96617b2f97ba9d2, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -7514,7 +7514,7 @@ Transform:
   m_GameObject: {fileID: 788563954}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.042, z: 9.26}
+  m_LocalPosition: {x: -4.022, y: 0.042, z: 15.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8302,7 +8302,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082209826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17437558, y: 1.4307699e-15, z: -3.4042196e-16, w: 0.9846792}
+  m_LocalRotation: {x: 0.17437558, y: 0.000000008383899, z: -0.0000000021631326, w: 0.9846792}
   m_LocalPosition: {x: 0, y: 2.98, z: -8.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9193,7 +9193,7 @@ Transform:
   m_GameObject: {fileID: 1460052392}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.242, y: -0.753, z: 364.8}
+  m_LocalPosition: {x: -0.242, y: -0.753, z: 379.3}
   m_LocalScale: {x: 8.18, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10012,7 +10012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416874, guid: 02569c08ab29ca94481dbec225d65225, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5720001
+      value: -1.71
       objectReference: {fileID: 0}
     - target: {fileID: 416874, guid: 02569c08ab29ca94481dbec225d65225, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10020,7 +10020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416874, guid: 02569c08ab29ca94481dbec225d65225, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 42.475994
+      value: 39.78
       objectReference: {fileID: 0}
     - target: {fileID: 416874, guid: 02569c08ab29ca94481dbec225d65225, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10335,7 +10335,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 4300000, guid: e8ba51a934eb276468729107e5d3143f, type: 3}
+  m_Mesh: {fileID: 289301614986012343, guid: 19570f2b8c301b54a96617b2f97ba9d2, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
