@@ -18,6 +18,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private TrailRenderer[] skidMarks = new TrailRenderer[2];
     [SerializeField] private ParticleSystem[] skidSmokes = new ParticleSystem[2];
     [SerializeField] private AudioSource engineSound, skidSound;
+    [SerializeField] private Transform centerOfMass;
 
     [Header("Suspension Settings")]
     [SerializeField] private float springStiffness;
@@ -39,6 +40,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float dragCoefficient = 1f;
     [SerializeField] private float brakingDeceleration = 100f;
     [SerializeField] private float brakingDragCoefficient = 0.5f;
+    [SerializeField] private Vector3 centerOfMassOffset = new Vector3(0, -0.5f, 0.5f);
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0;
@@ -62,11 +64,13 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         carRB = GetComponent<Rigidbody>();
+        Vector3 localCenterOfMass = transform.InverseTransformPoint(centerOfMass.position);
+        carRB.centerOfMass = localCenterOfMass;
     }
 
     private void FixedUpdate()
     {
-        Suspension(); 
+        Suspension();
         GroundCheck();
         CalculateCarVelocity();
         Movement();
