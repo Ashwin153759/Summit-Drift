@@ -28,6 +28,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float wheelRadius;
 
     [Header("Input")]
+    [SerializeField] private KeyCode driftBtn = KeyCode.Space;
     private float moveInput = 0;
     private float steerInput = 0;
 
@@ -40,7 +41,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private float dragCoefficient = 1f;
     [SerializeField] private float brakingDeceleration = 100f;
     [SerializeField] private float brakingDragCoefficient = 0.5f;
-    [SerializeField] private Vector3 centerOfMassOffset = new Vector3(0, -0.5f, 0.5f);
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0;
@@ -108,7 +108,7 @@ public class CarController : MonoBehaviour
 
     private void Deceleration()
     {
-        carRB.AddForceAtPosition((Input.GetKey(KeyCode.Space) ? brakingDeceleration : deceleration) * Mathf.Abs(carVelocityRatio) * -transform.forward, accelerationPoint.position, ForceMode.Acceleration);
+        carRB.AddForceAtPosition((Input.GetKey(driftBtn) ? brakingDeceleration : deceleration) * Mathf.Abs(carVelocityRatio) * -transform.forward, accelerationPoint.position, ForceMode.Acceleration);
     }
 
     private void Turn()
@@ -119,7 +119,7 @@ public class CarController : MonoBehaviour
     private void SidewaysDrag()
     {
         float currentSidewaysSpeed = currentCarLocalVelocity.x;
-        float dragMagnitude = -currentSidewaysSpeed * (Input.GetKey(KeyCode.Space) ? brakingDragCoefficient : dragCoefficient);
+        float dragMagnitude = -currentSidewaysSpeed * (Input.GetKey(driftBtn) ? brakingDragCoefficient : dragCoefficient);
 
         Vector3 dragForce = transform.right * dragMagnitude;
 
