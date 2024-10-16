@@ -100,9 +100,19 @@ public class CarController : MonoBehaviour
 
     private void Acceleration()
     {
-        if (currentCarLocalVelocity.z < maxSpeed)
+        float effectiveAcceleration = acceleration;
+        float effectiveMaxSpeed = maxSpeed;
+
+        // If moving backward, limit speed and acceleration
+        if (moveInput < 0 && carVelocityRatio < 0)
         {
-            carRB.AddForceAtPosition(acceleration * moveInput * transform.forward, accelerationPoint.position, ForceMode.Acceleration);
+            effectiveAcceleration *= 0.25f; 
+            effectiveMaxSpeed *= 0.25f;
+        }
+
+        if (Mathf.Abs(currentCarLocalVelocity.z) < effectiveMaxSpeed)
+        {
+            carRB.AddForceAtPosition(effectiveAcceleration * moveInput * transform.forward, accelerationPoint.position, ForceMode.Acceleration);
         }
     }
 
