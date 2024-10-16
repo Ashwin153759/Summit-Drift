@@ -118,12 +118,16 @@ public class CarController : MonoBehaviour
 
     private void Deceleration()
     {
-        carRB.AddForceAtPosition((Input.GetKey(driftBtn) ? brakingDeceleration : deceleration) * Mathf.Abs(carVelocityRatio) * -transform.forward, accelerationPoint.position, ForceMode.Acceleration);
+        // Slows down car whether it is going forward or backwards
+        float forceDirection = currentCarLocalVelocity.z > 0 ? 1f : -1f;
+
+        float decelerationForce = (Input.GetKey(driftBtn) ? brakingDeceleration : deceleration) * Mathf.Abs(carVelocityRatio);
+        carRB.AddForceAtPosition(-decelerationForce * transform.forward * forceDirection, accelerationPoint.position, ForceMode.Acceleration);
     }
 
     private void Turn()
     {
-        carRB.AddRelativeTorque(steerStrength * steerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio)) * Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
+        carRB.AddRelativeTorque((Input.GetKey(driftBtn) ? steerStrength * 1.5f : steerStrength) * steerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio)) * Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
     }
 
     private void SidewaysDrag()
