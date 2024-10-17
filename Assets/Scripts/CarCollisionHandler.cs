@@ -3,19 +3,28 @@ using UnityEngine;
 public class CarCollisionHandler : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject particleEffectPrefab;
+    [SerializeField] private GameObject hitParticleEffectPrefab;
+    [SerializeField] private GameObject groundParticleEffectPrefab;
     [SerializeField] private LayerMask collisionLayer;
+    [SerializeField] private LayerMask drivableLayer;
 
-    [Header("Particle Size Settings")]
-    [SerializeField] private float minStartSize = 0.005f;
-    [SerializeField] private float maxStartSize = 0.1f;
+    [Header("Hit Effect Size Settings")]
+    [SerializeField] private float hitMinStartSize = 0.005f;
+    [SerializeField] private float hitMaxStartSize = 0.1f;
 
-    [Header("Particle Burst Settings")]
-    [SerializeField] private int minBurstCount = 5;
-    [SerializeField] private int maxBurstCount = 100;
+    [Header("Ground Effect Size Settings")]
+    [SerializeField] private float groundMinStartSize = 0.005f;
+    [SerializeField] private float groundMaxStartSize = 0.1f;
+
+    [Header("Hit Effect Burst Settings")]
+    [SerializeField] private int hitMinBurstCount = 5;
+    [SerializeField] private int hitMaxBurstCount = 100;
+
+    [Header("Ground Effect Burst Settings")]
+    [SerializeField] private int groundMinBurstCount = 5;
+    [SerializeField] private int groundMaxBurstCount = 100;
 
     private CarController carController;
-
 
     private void Start()
     {
@@ -24,44 +33,69 @@ public class CarCollisionHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (particleEffectPrefab != null)
+        // Check for collisions with obstacles
+        if ((collisionLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
-            // Check if the layer of the collided object is part of the collisionLayer mask
-            if ((collisionLayer.value & (1 << collision.gameObject.layer)) != 0)
-            {
-                // Get the first contact point of the collision
-                Vector3 collisionPoint = collision.contacts[0].point;
+            SpawnEffect(hitParticleEffectPrefab, collision.contacts[0].point, useVelocityRatio: true);
+        }
 
-                // Spawn the particle effect at the collision point
-                GameObject particleEffect = Instantiate(particleEffectPrefab, collisionPoint, Quaternion.identity);
-
-                // Adjust the particle effect based on car velocity
-                AdjustParticleEffect(particleEffect);
-            }
+        // Check for ground collisions at a specific falling speed
+        if ((drivableLayer.value & (1 << collision.gameObject.layer)) != 0 && carController.CurrentCarLocalVelocity.y < 0)
+        {
+            SpawnEffect(groundParticleEffectPrefab, collision.contacts[0].point, useVelocityRatio: false);
         }
     }
 
-    /// <summary>
-    /// Adjusts the particle effect settings depending on collision speed
-    /// </summary>
-    /// <param name="particleEffect"></param>
-    private void AdjustParticleEffect(GameObject particleEffect)
+    // Spawn a obstacle or ground effect depending on what we hit
+    private void SpawnEffect(GameObject effectPrefab, Vector3 position, bool useVelocityRatio)
+    {
+        if (effectPrefab != null)
+        {
+            GameObject particleEffect = Instantiate(effectPrefab, position, Quaternion.identity);
+
+            if (useVelocityRatio)
+                AdjustHitParticleEffect(particleEffect);
+            else
+                AdjustGroundParticleEffect(particleEffect);
+        }
+    }
+
+    private void AdjustHitParticleEffect(GameObject particleEffect)
     {
         ParticleSystem particleSystem = particleEffect.GetComponent<ParticleSystem>();
 
         if (particleSystem != null)
         {
-            // Calculate size range and burst count based on the car's velocity ratio
-            float particleSizeMin = Mathf.Lerp(minStartSize, maxStartSize, carController.CarVelocityRatio);
+            float particleSizeMin = Mathf.Lerp(hitMinStartSize, hitMaxStartSize, carController.CarVelocityRatio);
             float particleSizeMax = particleSizeMin * 3.0f;
+            int burstCount = Mathf.RoundToInt(Mathf.Lerp(hitMinBurstCount, hitMaxBurstCount, carController.CarVelocityRatio));
 
-            int burstCount = Mathf.RoundToInt(Mathf.Lerp(minBurstCount, maxBurstCount, carController.CarVelocityRatio));
-
-            // Adjust the Main module for start size range
             var mainModule = particleSystem.main;
             mainModule.startSize = new ParticleSystem.MinMaxCurve(particleSizeMin, particleSizeMax);
 
-            // Adjust the Emission module for burst count
+            var emissionModule = particleSystem.emission;
+            emissionModule.SetBursts(new ParticleSystem.Burst[] {
+                new ParticleSystem.Burst(0, burstCount)
+            });
+        }
+    }
+
+    private void AdjustGroundParticleEffect(GameObject particleEffect)
+    {
+        ParticleSystem particleSystem = particleEffect.GetComponent<ParticleSystem>();
+
+        if (particleSystem != null)
+        {
+            // Clamp the Y velocity between 0 and 30 for lerping
+            float yVelocityNormalized = Mathf.Clamp(Mathf.Abs(carController.CurrentCarLocalVelocity.y), 0, 20) / 20f;
+
+            float particleSizeMin = Mathf.Lerp(groundMinStartSize, groundMaxStartSize, yVelocityNormalized);
+            float particleSizeMax = particleSizeMin * 3.0f;
+            int burstCount = Mathf.RoundToInt(Mathf.Lerp(groundMinBurstCount, groundMaxBurstCount, yVelocityNormalized));
+
+            var mainModule = particleSystem.main;
+            mainModule.startSize = new ParticleSystem.MinMaxCurve(particleSizeMin, particleSizeMax);
+
             var emissionModule = particleSystem.emission;
             emissionModule.SetBursts(new ParticleSystem.Burst[] {
                 new ParticleSystem.Burst(0, burstCount)
