@@ -817,6 +817,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1633350498}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1456521098 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1654114115679883838, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3905695992258288577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1456521104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456521098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82b85469338ca489692bbb04769dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 405354609414342363, guid: 3c1f0ed45d84b2141964784f891989ea,
+    type: 3}
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 55
+  minStartSize: 0.005
+  maxStartSize: 0.1
+  minBurstCount: 5
+  maxBurstCount: 100
 --- !u!1 &1460052392
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,7 +1297,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1654114115679883838, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1456521104}
   m_SourcePrefab: {fileID: 100100000, guid: 311bca8e48989f24da57f47fc1c1bb8b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

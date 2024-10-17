@@ -85,6 +85,20 @@ public class CarController : MonoBehaviour
 
     #endregion
 
+    #region Get Functions
+
+    public Vector3 CurrentCarLocalVelocity
+    {
+        get { return currentCarLocalVelocity; }
+    }
+
+    public float CarVelocityRatio
+    {
+        get { return carVelocityRatio; }
+    }
+
+    #endregion
+
     #region Movement
 
     private void Movement()
