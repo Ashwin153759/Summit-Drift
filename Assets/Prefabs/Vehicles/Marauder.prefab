@@ -198,7 +198,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654114115679883838}
   serializedVersion: 4
-  m_Mass: 1000
+  m_Mass: 2000
   m_Drag: 0.2
   m_AngularDrag: 10
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -309,8 +309,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dragCoefficient: 3
-  brakingDeceleration: 100
-  brakingDragCoefficient: 0.5
+  brakingDeceleration: 30
+  brakingDragCoefficient: 0.7
   tireRotSpeed: 3000
   maxSteeringAngle: 30
   minSideSkidVelocity: 8
@@ -980,7 +980,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5260251209582905021}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17437558, y: 0.000000008383899, z: -0.0000000021631326, w: 0.9846792}
+  m_LocalRotation: {x: 0.17437544, y: 0.00000017181186, z: -0.000000040433186, w: 0.9846793}
   m_LocalPosition: {x: 0, y: 2.98, z: -8.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
