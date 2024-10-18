@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class CarController : MonoBehaviour
 {
@@ -168,11 +162,14 @@ public class CarController : MonoBehaviour
     {
         float steeringAngle = maxSteeringAngle * steerInput;
 
+        // Slowdown rotation when going backwards since we move slower
+        float effectiveTireRotSpeed = moveInput > 0 ? tireRotSpeed : tireRotSpeed / 4f;
+
         for (int i = 0; i < tires.Length; i++)
         {
             if (i < 2)
             {
-                tires[i].transform.Rotate(Vector3.right, tireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
+                tires[i].transform.Rotate(Vector3.right, effectiveTireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
 
                 frontTireParents[i].transform.localEulerAngles = new Vector3(frontTireParents[i].transform.localEulerAngles.x, steeringAngle, frontTireParents[i].transform.localEulerAngles.z);
             }
@@ -180,9 +177,9 @@ public class CarController : MonoBehaviour
             {
                 // If we press gas, rotate more, else rotate with tirespeed
                 if (Mathf.Abs(moveInput) > Mathf.Abs(carVelocityRatio))
-                    tires[i].transform.Rotate(Vector3.right, tireRotSpeed * moveInput * Time.deltaTime, Space.Self);
+                    tires[i].transform.Rotate(Vector3.right, effectiveTireRotSpeed * moveInput * Time.deltaTime, Space.Self);
                 else
-                    tires[i].transform.Rotate(Vector3.right, tireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
+                    tires[i].transform.Rotate(Vector3.right, effectiveTireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
             }
 
         }

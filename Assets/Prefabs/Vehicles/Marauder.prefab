@@ -266,7 +266,7 @@ MonoBehaviour:
   acceleration: 20
   maxSpeed: 50
   deceleration: 15
-  steerStrength: 20
+  steerStrength: 10
   turningCurve:
     serializedVersion: 2
     m_Curve:
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a82b85469338ca489692bbb04769dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleEffectPrefab: {fileID: 405354609414342363, guid: 3c1f0ed45d84b2141964784f891989ea,
+  hitParticleEffectPrefab: {fileID: 405354609414342363, guid: 3c1f0ed45d84b2141964784f891989ea,
     type: 3}
   groundParticleEffectPrefab: {fileID: 1865758777319246694, guid: ecbc69856f0bf154caddf3b3d6d3162c,
     type: 3}
@@ -339,12 +339,12 @@ MonoBehaviour:
   drivableLayer:
     serializedVersion: 2
     m_Bits: 64
-  minStartSize: 0.005
-  maxStartSize: 0.1
+  hitMinStartSize: 0.005
+  hitMaxStartSize: 0.1
   groundMinStartSize: 0.005
   groundMaxStartSize: 0.1
-  minBurstCount: 5
-  maxBurstCount: 100
+  hitMinBurstCount: 5
+  hitMaxBurstCount: 100
   groundMinBurstCount: 5
   groundMaxBurstCount: 100
 --- !u!82 &3062860587778267968

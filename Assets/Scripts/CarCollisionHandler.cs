@@ -36,27 +36,15 @@ public class CarCollisionHandler : MonoBehaviour
         // Check for collisions with obstacles
         if ((collisionLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
-            SpawnEffect(hitParticleEffectPrefab, collision.contacts[0].point, useVelocityRatio: true);
+            GameObject particleEffect = Instantiate(hitParticleEffectPrefab, collision.contacts[0].point, Quaternion.identity);
+            AdjustHitParticleEffect(particleEffect);
         }
 
         // Check for ground collisions at a specific falling speed
         if ((drivableLayer.value & (1 << collision.gameObject.layer)) != 0 && carController.CurrentCarLocalVelocity.y < 0)
         {
-            SpawnEffect(groundParticleEffectPrefab, collision.contacts[0].point, useVelocityRatio: false);
-        }
-    }
-
-    // Spawn a obstacle or ground effect depending on what we hit
-    private void SpawnEffect(GameObject effectPrefab, Vector3 position, bool useVelocityRatio)
-    {
-        if (effectPrefab != null)
-        {
-            GameObject particleEffect = Instantiate(effectPrefab, position, Quaternion.identity);
-
-            if (useVelocityRatio)
-                AdjustHitParticleEffect(particleEffect);
-            else
-                AdjustGroundParticleEffect(particleEffect);
+            GameObject particleEffect = Instantiate(groundParticleEffectPrefab, collision.contacts[0].point, Quaternion.identity);
+            AdjustGroundParticleEffect(particleEffect);
         }
     }
 
