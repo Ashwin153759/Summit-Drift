@@ -310,8 +310,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dragCoefficient: 3
-  brakingDeceleration: 30
-  brakingDragCoefficient: 0.7
+  driftDeceleration: 30
+  DriftDragCoefficient: 0.5
+  sidewaysDragTransitionSpeed: 2
   tireRotSpeed: 3000
   maxSteeringAngle: 30
   minSideSkidVelocity: 8

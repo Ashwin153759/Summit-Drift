@@ -33,14 +33,20 @@ public class CarController : MonoBehaviour
     [SerializeField] private float steerStrength = 15f;
     [SerializeField] private AnimationCurve turningCurve;
     [SerializeField] private float dragCoefficient = 1f;
-    [SerializeField] private float brakingDeceleration = 100f;
-    [SerializeField] private float brakingDragCoefficient = 0.5f;
+    [SerializeField] private float driftDeceleration = 100f;
+    [SerializeField] private float DriftDragCoefficient = 0.5f;
+    [SerializeField] private float sidewaysDragTransitionSpeed = 2f;
 
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0;
 
+    // Drifting
+    private float currentSidewaysDrag;
+    private bool wasDriftingLastFrame = false;
+
     private int[] wheelsIsGrounded = new int[4];
     private bool isGrounded = false;
+    private bool isDrifting = false;
 
     [Header("Visuals")]
     [SerializeField] private float tireRotSpeed = 3000f;
@@ -60,6 +66,8 @@ public class CarController : MonoBehaviour
         carRB = GetComponent<Rigidbody>();
         Vector3 localCenterOfMass = transform.InverseTransformPoint(centerOfMass.position);
         carRB.centerOfMass = localCenterOfMass;
+
+        currentSidewaysDrag = dragCoefficient;
     }
 
     private void FixedUpdate()
@@ -129,23 +137,36 @@ public class CarController : MonoBehaviour
         // Slows down car whether it is going forward or backwards
         float forceDirection = currentCarLocalVelocity.z > 0 ? 1f : -1f;
 
-        float decelerationForce = (Input.GetKey(driftBtn) ? brakingDeceleration : deceleration) * Mathf.Abs(carVelocityRatio);
+        float decelerationForce = (isDrifting ? driftDeceleration : deceleration) * Mathf.Abs(carVelocityRatio);
         carRB.AddForceAtPosition(-decelerationForce * transform.forward * forceDirection, accelerationPoint.position, ForceMode.Acceleration);
     }
 
     private void Turn()
     {
-        carRB.AddRelativeTorque((Input.GetKey(driftBtn) ? steerStrength * 1.5f : steerStrength) * steerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio)) * Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
+        carRB.AddRelativeTorque((isDrifting ? steerStrength * 1.5f : steerStrength) * steerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio)) * Mathf.Sign(carVelocityRatio) * transform.up, ForceMode.Acceleration);
     }
 
     private void SidewaysDrag()
     {
+        if (isDrifting)
+        {
+            currentSidewaysDrag = DriftDragCoefficient;
+        }
+        else
+        {
+            // Smoothly and linearly transition back to normal deceleration using Mathf.MoveTowards
+            currentSidewaysDrag = Mathf.MoveTowards(currentSidewaysDrag, dragCoefficient, sidewaysDragTransitionSpeed * Time.fixedDeltaTime);
+        }
+
+        Debug.Log(currentSidewaysDrag);
         float currentSidewaysSpeed = currentCarLocalVelocity.x;
-        float dragMagnitude = -currentSidewaysSpeed * (Input.GetKey(driftBtn) ? brakingDragCoefficient : dragCoefficient);
+        float dragMagnitude = -currentSidewaysSpeed * currentSidewaysDrag;
 
         Vector3 dragForce = transform.right * dragMagnitude;
 
         carRB.AddForceAtPosition(dragForce, carRB.worldCenterOfMass, ForceMode.Acceleration);
+
+        wasDriftingLastFrame = isDrifting;
     }
 
     #endregion
@@ -280,6 +301,7 @@ public class CarController : MonoBehaviour
     {
         moveInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
+        isDrifting = Input.GetKey(driftBtn);
     }
 
     #endregion
