@@ -1267,6 +1267,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Marauder
       objectReference: {fileID: 0}
+    - target: {fileID: 3205022998779049806, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+        type: 3}
+      propertyPath: sidewaysDragTransitionSpeed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -158,7 +158,6 @@ public class CarController : MonoBehaviour
             currentSidewaysDrag = Mathf.MoveTowards(currentSidewaysDrag, dragCoefficient, sidewaysDragTransitionSpeed * Time.fixedDeltaTime);
         }
 
-        Debug.Log(currentSidewaysDrag);
         float currentSidewaysSpeed = currentCarLocalVelocity.x;
         float dragMagnitude = -currentSidewaysSpeed * currentSidewaysDrag;
 
