@@ -312,10 +312,12 @@ MonoBehaviour:
   dragCoefficient: 3
   driftDeceleration: 30
   DriftDragCoefficient: 0.5
-  sidewaysDragTransitionSpeed: 2
+  sidewaysDragTransitionSpeed: 3
   tireRotSpeed: 3000
   maxSteeringAngle: 30
   minSideSkidVelocity: 8
+  skidSmokeMinSize: 0.1
+  skidSmokeMaxSize: 1.2
   minPitch: 0.497
   maxPitch: 3.34
 --- !u!114 &3421366296064955702
@@ -1012,7 +1014,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5260251209582905021}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17437544, y: 0.00000017181186, z: -0.000000040433186, w: 0.9846793}
+  m_LocalRotation: {x: 0.17437555, y: -0.000000019555221, z: 0.0000000048642597, w: 0.9846793}
   m_LocalPosition: {x: 0, y: 2.98, z: -8.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

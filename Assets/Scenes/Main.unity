@@ -209,8 +209,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17429319, y: -0.030266272, z: 0.0053598154, w: 0.984214}
-  m_LocalPosition: {x: -0.23922092, y: 3.56, z: 30.905401}
+  m_LocalRotation: {x: 0.17437556, y: -0.000000019299042, z: 0.0000000034176424, w: 0.9846792}
+  m_LocalPosition: {x: -0.74, y: 3.56, z: 30.890001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -770,36 +770,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 125319762598987149, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.50077945
-      objectReference: {fileID: 0}
-    - target: {fileID: 125319762598987149, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.1346
-      objectReference: {fileID: 0}
-    - target: {fileID: 125319762598987149, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.984214
-      objectReference: {fileID: 0}
-    - target: {fileID: 125319762598987149, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.17429318
-      objectReference: {fileID: 0}
-    - target: {fileID: 125319762598987149, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.030266272
-      objectReference: {fileID: 0}
-    - target: {fileID: 125319762598987149, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.0053598145
-      objectReference: {fileID: 0}
     - target: {fileID: 1412442777969571416, guid: 311bca8e48989f24da57f47fc1c1bb8b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -854,11 +824,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Marauder
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205022998779049806, guid: 311bca8e48989f24da57f47fc1c1bb8b,
-        type: 3}
-      propertyPath: sidewaysDragTransitionSpeed
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

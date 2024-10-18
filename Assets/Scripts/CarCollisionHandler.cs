@@ -74,7 +74,7 @@ public class CarCollisionHandler : MonoBehaviour
 
         if (particleSystem != null)
         {
-            // Clamp the Y velocity between 0 and 30 for lerping
+            // Clamp the Y velocity between 0 and 20 for lerping
             float yVelocityNormalized = Mathf.Clamp(Mathf.Abs(carController.CurrentCarLocalVelocity.y), 0, 20) / 20f;
 
             float particleSizeMin = Mathf.Lerp(groundMinStartSize, groundMaxStartSize, yVelocityNormalized);

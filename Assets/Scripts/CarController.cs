@@ -52,6 +52,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private float tireRotSpeed = 3000f;
     [SerializeField] private float maxSteeringAngle = 30f;
     [SerializeField] private float minSideSkidVelocity = 10f;
+    [SerializeField] private float skidSmokeMinSize = 0.1f;
+    [SerializeField] private float skidSmokeMaxSize = 1f;
 
     [Header("Audio")]
     [SerializeField]
@@ -209,13 +211,13 @@ public class CarController : MonoBehaviour
     {
         if (isGrounded && Mathf.Abs(currentCarLocalVelocity.x)  > minSideSkidVelocity && carVelocityRatio > 0)
         {
-            ToggleSkidMarks(true);
+            //ToggleSkidMarks(true);
             ToggleSkidSmokes(true);
             ToggleSkidSound(true);
         }
         else
         {
-            ToggleSkidMarks(false);
+            //ToggleSkidMarks(false);
             ToggleSkidSmokes(false);
             ToggleSkidSound(false);
         }
@@ -236,12 +238,27 @@ public class CarController : MonoBehaviour
             if (toggle)
             {
                 smoke.Play();
+                // Adjust the size of the skid smoke depending on how fast we are drifting sideways
+                AdjustSkidSmokeParticleEffect(smoke);
             }
             else
             {
                 smoke.Stop();
             }
         }
+    }
+
+    private void AdjustSkidSmokeParticleEffect(ParticleSystem particleEffect)
+    {
+        var mainModule = particleEffect.main;
+
+        // Normalize the velocity value (clamp it between 0 and 1)
+        float normalizedVelocity = Mathf.Clamp01(Mathf.Abs(CurrentCarLocalVelocity.x) / 25f);
+
+        // Calculate the new particle size based on the normalized skid velocity
+        float newParticleSize = Mathf.Lerp(skidSmokeMinSize, skidSmokeMaxSize, normalizedVelocity);
+
+        mainModule.startSize = new ParticleSystem.MinMaxCurve(newParticleSize);
     }
 
     private void SetTirePosition(GameObject tire, Vector3 targetPosition)
