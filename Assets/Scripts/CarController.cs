@@ -185,7 +185,7 @@ public class CarController : MonoBehaviour
         float steeringAngle = maxSteeringAngle * steerInput;
 
         // Slowdown rotation when going backwards since we move slower
-        float effectiveTireRotSpeed = moveInput > 0 ? tireRotSpeed : tireRotSpeed / 4f;
+        float effectiveTireRotSpeed = moveInput < 0 && carVelocityRatio < 0 ? tireRotSpeed / 8f : tireRotSpeed;
 
         for (int i = 0; i < tires.Length; i++)
         {
