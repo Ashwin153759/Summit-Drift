@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class CarController : MonoBehaviour
 {
@@ -22,9 +24,15 @@ public class CarController : MonoBehaviour
     [SerializeField] private float wheelRadius;
 
     [Header("Input")]
-    [SerializeField] private KeyCode driftBtn = KeyCode.Space;
-    private float moveInput = 0;
-    private float steerInput = 0;
+    [SerializeField] private float steerSensitivity = 2f;
+    [SerializeField] private float steerDamping = 3f;
+    private float accumulatedSteerInput = 0f;
+
+    private CarInputActions inputActions;
+    private float moveInput;
+    private float steerInput;
+    private bool isDrifting;
+    private bool isDriftingBtn;
 
     [Header("Car Settings")]
     [SerializeField] private float acceleration = 25f;
@@ -46,7 +54,6 @@ public class CarController : MonoBehaviour
 
     private int[] wheelsIsGrounded = new int[4];
     private bool isGrounded = false;
-    private bool isDrifting = false;
 
     [Header("Visuals")]
     [SerializeField] private float tireRotSpeed = 3000f;
@@ -63,9 +70,27 @@ public class CarController : MonoBehaviour
 
     #region Unity Functions
 
-    private void Start()
+    private void Awake()
     {
         carRB = GetComponent<Rigidbody>();
+
+        // Initialize input actions
+        inputActions = new CarInputActions();
+
+        // Assign input action events for Move
+        inputActions.Car.Move.performed += ctx => moveInput = ctx.ReadValue<float>();
+        inputActions.Car.Move.canceled += ctx => moveInput = 0f;
+
+        // Drift button handling (true when pressed, false when released)
+        inputActions.Car.Drift.performed += ctx => isDriftingBtn = true;
+        inputActions.Car.Drift.canceled += ctx => isDriftingBtn = false;
+
+        // Enable input actions
+        inputActions.Enable();
+    }
+
+    private void Start()
+    {
         Vector3 localCenterOfMass = transform.InverseTransformPoint(centerOfMass.position);
         carRB.centerOfMass = localCenterOfMass;
 
@@ -84,7 +109,14 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        GetPlayerInput();
+        GetInputs();
+        Debug.Log("Steer Input: " + (isDrifting ? steerStrength * 1.5f : steerStrength) * steerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio)) * Mathf.Sign(carVelocityRatio));
+        
+    }
+
+    private void OnDestroy()
+    {
+        inputActions.Disable();
     }
 
     #endregion
@@ -99,6 +131,36 @@ public class CarController : MonoBehaviour
     public float CarVelocityRatio
     {
         get { return carVelocityRatio; }
+    }
+
+    #endregion
+
+    #region User Inputs
+
+    private void GetInputs()
+    {
+        Steering();
+        Drifting();
+    }
+
+    private void Drifting()
+    {
+        // Only drift if we are trying to go forward
+        isDrifting = isDriftingBtn && moveInput > 0;
+    }
+
+    private void Steering()
+    {
+        float rawSteerInput = inputActions.Car.Steer.ReadValue<float>();
+
+        // Accumulate steer input with damping for smoother transitions
+        accumulatedSteerInput += (rawSteerInput * steerSensitivity - accumulatedSteerInput) * Time.deltaTime * steerDamping;
+
+        // Clamp the accumulated steer input to [-1, 1] range (to prevent overflow)
+        accumulatedSteerInput = Mathf.Clamp(accumulatedSteerInput, -1f, 1f);
+
+        // Assign the accumulated value to steerInput, which will be used in the steering code
+        steerInput = accumulatedSteerInput;
     }
 
     #endregion
@@ -304,18 +366,6 @@ public class CarController : MonoBehaviour
     {
         currentCarLocalVelocity = transform.InverseTransformDirection(carRB.velocity);
         carVelocityRatio = currentCarLocalVelocity.z / maxSpeed;
-    }
-
-    #endregion
-
-    #region Input Handling
-
-    private void GetPlayerInput()
-    {
-        moveInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
-        // Only drift if you are going forward
-        isDrifting = Input.GetKey(driftBtn) && moveInput > 0;
     }
 
     #endregion

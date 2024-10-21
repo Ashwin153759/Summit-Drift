@@ -262,7 +262,8 @@ MonoBehaviour:
   restLength: 0.5
   springTravel: 0.25
   wheelRadius: 0.38
-  driftBtn: 32
+  steerSensitivity: 1.5
+  steerDamping: 7
   acceleration: 20
   maxSpeed: 50
   deceleration: 15
@@ -273,38 +274,56 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 6.2335124
+      outSlope: 6.2335124
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.0887592
-      value: 0.42011696
-      inSlope: 1.908394
-      outSlope: 1.908394
-      tangentMode: 0
+      time: 0.06552134
+      value: 0.40842807
+      inSlope: 4.1841264
+      outSlope: 4.1841264
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.69744396
-      value: 0.9960654
-      inSlope: 0.110466555
-      outSlope: 0.110466555
-      tangentMode: 0
+      time: 0.16732177
+      value: 0.6257456
+      inSlope: 1.6117016
+      outSlope: 1.6117016
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.9833374
-      value: 0.8171387
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0.3138057
+      value: 0.78521717
+      inSlope: 0.98038495
+      outSlope: 0.98038495
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5377449
+      value: 0.98051614
+      inSlope: 0.27187094
+      outSlope: 0.27187094
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9874878
+      value: 0.83283615
+      inSlope: -0.32836533
+      outSlope: -0.32836533
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
