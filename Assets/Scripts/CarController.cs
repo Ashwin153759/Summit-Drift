@@ -109,9 +109,7 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        GetInputs();
-        Debug.Log("Steer Input: " + (isDrifting ? steerStrength * 1.5f : steerStrength) * steerInput * turningCurve.Evaluate(Mathf.Abs(carVelocityRatio)) * Mathf.Sign(carVelocityRatio));
-        
+        GetInputs();        
     }
 
     private void OnDestroy()
@@ -270,13 +268,13 @@ public class CarController : MonoBehaviour
     {
         if (isGrounded && Mathf.Abs(currentCarLocalVelocity.x)  > minSideSkidVelocity && carVelocityRatio > 0)
         {
-            //ToggleSkidMarks(true);
+            ToggleSkidMarks(true);
             ToggleSkidSmokes(true);
             ToggleSkidSound(true);
         }
         else
         {
-            //ToggleSkidMarks(false);
+            ToggleSkidMarks(false);
             ToggleSkidSmokes(false);
             ToggleSkidSound(false);
         }
