@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -13,6 +15,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject[] frontTireParents = new GameObject[2];
     [SerializeField] private TrailRenderer[] skidMarks = new TrailRenderer[2];
     [SerializeField] private ParticleSystem[] skidSmokes = new ParticleSystem[2];
+    [SerializeField] private List<GameObject> boostParticleObjects;
     [SerializeField] private AudioSource engineSound, skidSound;
     [SerializeField] private Transform centerOfMass;
 
@@ -31,8 +34,6 @@ public class CarController : MonoBehaviour
     private CarInputActions inputActions;
     private float moveInput;
     private float steerInput;
-    private bool isDrifting;
-    private bool isDriftingBtn;
 
     [Header("Car Settings")]
     [SerializeField] private float acceleration = 25f;
@@ -49,9 +50,23 @@ public class CarController : MonoBehaviour
     private float carVelocityRatio = 0;
 
     // Drifting
-    private float currentSidewaysDrag;
-    private bool wasDriftingLastFrame = false;
 
+    // if we are trying to drift
+    private bool isDrifting;
+    // If the drift button is pressed
+    private bool isDriftingBtn;
+    // if the car is slipping
+    private bool isCarSlipping;
+
+    private float currentSidewaysDrag;
+    private float driftDuration = 0f;
+    private float driftIntensity = 0f;
+
+    private bool isBoosting = false;
+    private float boostEndTime = 0f;
+    private float boostStrength = 0f;
+
+    // Ground Detected
     private int[] wheelsIsGrounded = new int[4];
     private bool isGrounded = false;
 
@@ -82,8 +97,8 @@ public class CarController : MonoBehaviour
         inputActions.Car.Move.canceled += ctx => moveInput = 0f;
 
         // Drift button handling (true when pressed, false when released)
-        inputActions.Car.Drift.performed += ctx => isDriftingBtn = true;
-        inputActions.Car.Drift.canceled += ctx => isDriftingBtn = false;
+        inputActions.Car.Drift.performed += ctx => StartDrifting();
+        inputActions.Car.Drift.canceled += ctx => EndDrifting();
 
         // Enable input actions
         inputActions.Enable();
@@ -109,7 +124,7 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        GetInputs();        
+        GetInputs();
     }
 
     private void OnDestroy()
@@ -138,13 +153,6 @@ public class CarController : MonoBehaviour
     private void GetInputs()
     {
         Steering();
-        Drifting();
-    }
-
-    private void Drifting()
-    {
-        // Only drift if we are trying to go forward
-        isDrifting = isDriftingBtn && moveInput > 0;
     }
 
     private void Steering()
@@ -173,6 +181,7 @@ public class CarController : MonoBehaviour
             Deceleration();
             Turn();
             SidewaysDrag();
+            Drifting();
         }
     }
 
@@ -226,8 +235,85 @@ public class CarController : MonoBehaviour
         Vector3 dragForce = transform.right * dragMagnitude;
 
         carRB.AddForceAtPosition(dragForce, carRB.worldCenterOfMass, ForceMode.Acceleration);
+    }
 
-        wasDriftingLastFrame = isDrifting;
+    private void Drifting()
+    {
+        // Calculate if the car is slipping
+        isCarSlipping = isGrounded && Mathf.Abs(currentCarLocalVelocity.x) > minSideSkidVelocity && carVelocityRatio > 0;
+
+        // Initiate Drift if we are moving forward and pressing button
+        isDrifting = isDriftingBtn && moveInput > 0;
+
+        if (isDrifting)
+        {
+            // Only track drift stats when actually slipping
+            if (isCarSlipping)
+            {
+                driftDuration += Time.deltaTime;
+                driftIntensity = Mathf.Max(driftIntensity, Mathf.Abs(currentCarLocalVelocity.x));  // Track max sideways velocity
+            }
+            else
+            {
+                // Reset drift if we are no longer slipping
+                ResetDriftStats();
+            }
+        }
+    }
+
+    private void ApplyDriftBoost()
+    {
+        // Calculate boost strength based on drift duration and intensity
+        boostStrength = driftDuration * driftIntensity * 0.5f;
+
+        // Apply boost for a duration based on drift
+        float boostDuration = Mathf.Clamp(driftDuration, 0.3f, 3f);
+        boostEndTime = Time.time + boostDuration;
+
+        if (!isBoosting)
+        {
+            StartCoroutine(ApplyBoostForDuration(boostDuration));
+        }
+    }
+
+    private IEnumerator ApplyBoostForDuration(float boostDuration)
+    {
+        isBoosting = true;
+
+        while (Time.time < boostEndTime)
+        {
+            // Apply the continuous boost force
+            Vector3 boostVelocity = transform.forward * boostStrength * Time.deltaTime;
+            
+            carRB.AddForce(boostVelocity, ForceMode.Acceleration);
+
+            yield return null;
+        }
+
+        isBoosting = false;
+    }
+
+    private void ResetDriftStats()
+    {
+        driftDuration = 0f;
+        driftIntensity = 0f;
+    }
+
+    private void StartDrifting()
+    {
+        isDriftingBtn = true;
+    }
+
+    private void EndDrifting()
+    {
+        isDriftingBtn = false;
+
+        if (isCarSlipping)
+        {
+            ApplyDriftBoost();
+        }
+
+        ResetDriftStats();
     }
 
     #endregion
@@ -238,6 +324,7 @@ public class CarController : MonoBehaviour
     {
         TireVisuals();
         Vfx();
+        BoostVisual();
     }
 
     private void TireVisuals()
@@ -264,9 +351,35 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void BoostVisual()
+    {
+        // Turn on / off Boost in Exhaust
+        foreach (GameObject particleObject in boostParticleObjects)
+        {
+            ParticleSystem particleSystem = particleObject.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                if (isBoosting)
+                {
+                    if (!particleSystem.isPlaying)
+                    {
+                        particleSystem.Play();
+                    }
+                }
+                else
+                {
+                    if (particleSystem.isPlaying)
+                    {
+                        particleSystem.Stop();
+                    }
+                }
+            }
+        }
+    }
+
     private void Vfx()
     {
-        if (isGrounded && Mathf.Abs(currentCarLocalVelocity.x)  > minSideSkidVelocity && carVelocityRatio > 0)
+        if (isCarSlipping)
         {
             ToggleSkidMarks(true);
             ToggleSkidSmokes(true);
