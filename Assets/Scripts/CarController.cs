@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class CarController : MonoBehaviour
 {
@@ -29,11 +27,6 @@ public class CarController : MonoBehaviour
     [Header("Input")]
     [SerializeField] private float steerSensitivity = 2f;
     [SerializeField] private float steerDamping = 3f;
-    private float accumulatedSteerInput = 0f;
-
-    private CarInputActions inputActions;
-    private float moveInput;
-    private float steerInput;
 
     [Header("Car Settings")]
     [SerializeField] private float acceleration = 25f;
@@ -45,30 +38,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private float driftDeceleration = 100f;
     [SerializeField] private float DriftDragCoefficient = 0.5f;
     [SerializeField] private float sidewaysDragTransitionSpeed = 2f;
-
-    private Vector3 currentCarLocalVelocity = Vector3.zero;
-    private float carVelocityRatio = 0;
-
-    // Drifting
-
-    // if we are trying to drift
-    private bool isDrifting;
-    // If the drift button is pressed
-    private bool isDriftingBtn;
-    // if the car is slipping
-    private bool isCarSlipping;
-
-    private float currentSidewaysDrag;
-    private float driftDuration = 0f;
-    private float driftIntensity = 0f;
-
-    private bool isBoosting = false;
-    private float boostEndTime = 0f;
-    private float boostStrength = 0f;
-
-    // Ground Detected
-    private int[] wheelsIsGrounded = new int[4];
-    private bool isGrounded = false;
 
     [Header("Visuals")]
     [SerializeField] private float tireRotSpeed = 3000f;
@@ -82,6 +51,33 @@ public class CarController : MonoBehaviour
     [Range(0, 1)] private float minPitch = 1f;
     [SerializeField]
     [Range(1, 5)] private float maxPitch = 1f;
+
+    private Vector3 currentCarLocalVelocity = Vector3.zero;
+    private float carVelocityRatio = 0;
+
+    // Drifting
+    private bool isDrifting; // if we are trying to drift
+    private bool isDriftingBtn; // If the drift button is pressed
+    private bool isCarSlipping; // if the car is slipping
+
+    private float currentSidewaysDrag;
+    private float driftDuration = 0f;
+    private float driftIntensity = 0f;
+
+    private bool isBoosting = false;
+    private float boostEndTime = 0f;
+    private float boostStrength = 0f;
+
+    // Input
+    private float accumulatedSteerInput = 0f;
+
+    private CarInputActions inputActions;
+    private float moveInput;
+    private float steerInput;
+
+    // Ground Detected
+    private int[] wheelsIsGrounded = new int[4];
+    private bool isGrounded = false;
 
     #region Unity Functions
 
