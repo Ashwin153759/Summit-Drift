@@ -5,7 +5,6 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Rigidbody carRB;
     [SerializeField] private Transform[] rayPoints;
     [SerializeField] private LayerMask drivable;
     [SerializeField] private Transform accelerationPoint;
@@ -52,6 +51,7 @@ public class CarController : MonoBehaviour
     [SerializeField]
     [Range(1, 5)] private float maxPitch = 1f;
 
+    private Rigidbody carRB;
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0;
 
@@ -141,6 +141,11 @@ public class CarController : MonoBehaviour
     public float CarVelocityRatio
     {
         get { return carVelocityRatio; }
+    }
+
+    public bool IsBoosting
+    {
+        get { return isBoosting; }
     }
 
     #endregion
@@ -264,7 +269,7 @@ public class CarController : MonoBehaviour
         boostStrength = driftDuration * driftIntensity * 0.5f;
 
         // Apply boost for a duration based on drift
-        float boostDuration = Mathf.Clamp(driftDuration, 0.3f, 3f);
+        float boostDuration = Mathf.Clamp(driftDuration, 0.5f, 3f);
         boostEndTime = Time.time + boostDuration;
 
         if (!isBoosting)

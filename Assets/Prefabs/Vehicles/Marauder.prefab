@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 3240244518912180346}
   - component: {fileID: 3205022998779049806}
   - component: {fileID: 3421366296064955702}
+  - component: {fileID: 5297360489913878768}
   - component: {fileID: 3062860587778267968}
   - component: {fileID: 7757705110472534350}
   m_Layer: 0
@@ -366,7 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c3bb224cce712b46960a0dab839bd2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carRB: {fileID: 0}
   rayPoints:
   - {fileID: 3422258146487777137}
   - {fileID: 8962271855228333965}
@@ -404,7 +404,7 @@ MonoBehaviour:
   damperStiffness: 4000
   restLength: 0.5
   springTravel: 0.25
-  wheelRadius: 0.38
+  wheelRadius: 0.33
   steerSensitivity: 1.5
   steerDamping: 7
   acceleration: 20
@@ -512,6 +512,23 @@ MonoBehaviour:
   hitMaxBurstCount: 100
   groundMinBurstCount: 5
   groundMaxBurstCount: 100
+--- !u!114 &5297360489913878768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654114115679883838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b8bac9546bfe241bdd620e2ca8ce6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 3823613585957813181}
+  perlinNoise: {fileID: 0}
+  defaultFOV: 70
+  boostFOV: 80
+  fovTransitionSpeed: 3
 --- !u!82 &3062860587778267968
 AudioSource:
   m_ObjectHideFlags: 0
@@ -524,7 +541,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 365c7c8dd0b00c247aa968426f380281, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -618,11 +635,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5dc283cd8265baf4490d3d6a90f1d684, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -884,6 +901,7 @@ GameObject:
   - component: {fileID: 2326987600992939688}
   - component: {fileID: 2576855166406826564}
   - component: {fileID: 543677125460910144}
+  - component: {fileID: 4562898006798167412}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -967,6 +985,23 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
+--- !u!114 &4562898006798167412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2722280595412394527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: e9ce97b7a206dc64d90931ea044e0c72, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &3007168348140252166
 GameObject:
   m_ObjectHideFlags: 0

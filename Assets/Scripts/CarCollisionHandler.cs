@@ -25,14 +25,19 @@ public class CarCollisionHandler : MonoBehaviour
     [SerializeField] private int groundMaxBurstCount = 100;
 
     private CarController carController;
+    private CarCameraEffects carCameraEffects;
 
     private void Start()
     {
         carController = GetComponent<CarController>();
+        carCameraEffects = GetComponent<CarCameraEffects>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Trigger Camera Shake
+        carCameraEffects.TriggerCameraShake(collision.relativeVelocity.magnitude / 20f, 0.1f);
+
         // Check for collisions with obstacles
         if ((collisionLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
