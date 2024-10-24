@@ -825,6 +825,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Marauder
       objectReference: {fileID: 0}
+    - target: {fileID: 3062860587778267968, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757705110472534350, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757705110472534350, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757705110472534350, guid: 311bca8e48989f24da57f47fc1c1bb8b,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5dc283cd8265baf4490d3d6a90f1d684, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

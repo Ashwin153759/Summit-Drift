@@ -305,7 +305,7 @@ public class CarController : MonoBehaviour
     {
         isDriftingBtn = false;
 
-        if (isCarSlipping && driftDuration >= 0.5f)
+        if (isCarSlipping && driftDuration >= 0.3f)
         {
             ApplyDriftBoost();
         }
