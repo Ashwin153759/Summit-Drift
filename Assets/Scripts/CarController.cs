@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private TrailRenderer[] skidMarks = new TrailRenderer[2];
     [SerializeField] private ParticleSystem[] skidSmokes = new ParticleSystem[2];
     [SerializeField] private List<GameObject> boostParticleObjects;
-    [SerializeField] private AudioSource engineSound, skidSound;
+    [SerializeField] private AudioSource engineSound, skidSound, boostSound, boostEndSound;
     [SerializeField] private Transform centerOfMass;
 
     [Header("Suspension Settings")]
@@ -67,6 +67,7 @@ public class CarController : MonoBehaviour
     private bool isBoosting = false;
     private float boostEndTime = 0f;
     private float boostStrength = 0f;
+    private bool isBoostSoundPlaying = false;
 
     // Input
     private float accumulatedSteerInput = 0f;
@@ -304,7 +305,7 @@ public class CarController : MonoBehaviour
     {
         isDriftingBtn = false;
 
-        if (isCarSlipping)
+        if (isCarSlipping && driftDuration >= 0.5f)
         {
             ApplyDriftBoost();
         }
@@ -349,6 +350,20 @@ public class CarController : MonoBehaviour
 
     private void BoostVisual()
     {
+
+        // Handle Boost Sound Effects
+        if (isBoosting && !isBoostSoundPlaying)
+        {
+            StartSound(boostSound);
+            isBoostSoundPlaying = true;
+        }
+        else if (!isBoosting && isBoostSoundPlaying)
+        {
+            StopSound(boostSound);
+            StartSound(boostEndSound);
+            isBoostSoundPlaying = false;
+        }
+
         // Turn on / off Boost in Exhaust
         foreach (GameObject particleObject in boostParticleObjects)
         {
@@ -375,17 +390,17 @@ public class CarController : MonoBehaviour
 
     private void Vfx()
     {
-        if (isCarSlipping)
+        if (isCarSlipping && isGrounded)
         {
             ToggleSkidMarks(true);
             ToggleSkidSmokes(true);
-            ToggleSkidSound(true);
+            ToggleSound(true, skidSound);
         }
         else
         {
             ToggleSkidMarks(false);
             ToggleSkidSmokes(false);
-            ToggleSkidSound(false);
+            ToggleSound(false, skidSound);
         }
     }
 
@@ -441,9 +456,19 @@ public class CarController : MonoBehaviour
         engineSound.pitch = Mathf.Lerp(minPitch, maxPitch, Mathf.Abs(carVelocityRatio));
     }
 
-    private void ToggleSkidSound(bool toggle)
+    private void ToggleSound(bool toggle, AudioSource audio)
     {
-        skidSound.mute = !toggle;
+        audio.mute = !toggle;
+    }
+
+    private void StartSound(AudioSource audio)
+    {
+        audio.Play();
+    }
+
+    private void StopSound(AudioSource audio)
+    {
+        audio.Stop();
     }
 
     #endregion
