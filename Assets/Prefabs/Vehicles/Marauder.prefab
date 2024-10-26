@@ -297,8 +297,6 @@ GameObject:
   - component: {fileID: 3240244518912180346}
   - component: {fileID: 3205022998779049806}
   - component: {fileID: 3421366296064955702}
-  - component: {fileID: 4888869952219300199}
-  - component: {fileID: 401712855642286921}
   - component: {fileID: 5297360489913878768}
   - component: {fileID: 3062860587778267968}
   - component: {fileID: 7757705110472534350}
@@ -514,48 +512,6 @@ MonoBehaviour:
   hitMaxBurstCount: 100
   groundMinBurstCount: 5
   groundMaxBurstCount: 100
---- !u!114 &4888869952219300199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654114115679883838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b8bac9546bfe241bdd620e2ca8ce6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 3823613585957813181}
-  perlinNoise: {fileID: 0}
-  defaultFOV: 70
-  boostFOV: 80
-  boostFovTransitionSpeed: 10
-  boostReturnFovTransitionSpeed: 2
-  minCollisionFOV: 55
-  collisionReturnFovTransitionSpeed: 2
-  maxCollisionIntensity: 25
---- !u!114 &401712855642286921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654114115679883838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b8bac9546bfe241bdd620e2ca8ce6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 3823613585957813181}
-  perlinNoise: {fileID: 0}
-  defaultFOV: 70
-  boostFOV: 80
-  boostFovTransitionSpeed: 10
-  boostReturnFovTransitionSpeed: 2
-  minCollisionFOV: 60
-  collisionReturnFovTransitionSpeed: 2
-  maxCollisionIntensity: 40
 --- !u!114 &5297360489913878768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,9 +530,9 @@ MonoBehaviour:
   boostFOV: 80
   boostFovTransitionSpeed: 10
   boostReturnFovTransitionSpeed: 2
-  minCollisionFOV: 50
+  minCollisionFOV: 55
   collisionReturnFovTransitionSpeed: 10
-  maxCollisionIntensity: 25
+  maxCollisionIntensity: 30
 --- !u!82 &3062860587778267968
 AudioSource:
   m_ObjectHideFlags: 0
