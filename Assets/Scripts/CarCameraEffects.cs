@@ -12,15 +12,14 @@ public class CarCameraEffects : MonoBehaviour
     [SerializeField] private float defaultFOV = 70f;
 
     [Header("Boost FOV Settings")]
-    [SerializeField] private float boostFOV = 75;
+    [SerializeField] private float boostFOV = 75f;
     [SerializeField] private float boostFovTransitionSpeed = 10f;
-    [SerializeField] private float boostReturnFovTransitionSpeed = 2;
+    [SerializeField] private float boostReturnFovTransitionSpeed = 2f;
 
     [Header("Collision FOV Settings")]
-    [SerializeField] private float maxCollisionFOV = 60f;
-    [SerializeField] private float collisionFovTransitionSpeed = 10f;
-    [SerializeField] private float collisionReturnFovTransitionSpeed = 2;
-    [SerializeField] private float maxCollisionIntensity = 40f;
+    [SerializeField] private float minCollisionFOV = 55f;
+    [SerializeField] private float collisionReturnFovTransitionSpeed = 2f;
+    [SerializeField] private float maxCollisionIntensity = 25f;
 
     private CarController carController;
     private Coroutine shakeResetCoroutine;
@@ -73,7 +72,9 @@ public class CarCameraEffects : MonoBehaviour
     public void TriggerCollisionFOV(float collisionIntensity)
     {
         float normalizedIntensity = Mathf.Clamp01(collisionIntensity / maxCollisionIntensity);
-        float targetFOV = Mathf.Lerp(defaultFOV, maxCollisionFOV, normalizedIntensity);
+        float targetFOV = Mathf.Lerp(defaultFOV, minCollisionFOV, normalizedIntensity);
+
+        Debug.Log($"Collision Intensity: {collisionIntensity}, Max: {maxCollisionIntensity}, Normalized: {normalizedIntensity}, Target FOV: {targetFOV}");
 
         if (collisionFOVCoroutine != null)
         {
@@ -84,14 +85,6 @@ public class CarCameraEffects : MonoBehaviour
 
     private IEnumerator CollisionFOVRoutine(float targetFOV)
     {
-        // Transition to target FOV
-        while (Mathf.Abs(virtualCamera.m_Lens.FieldOfView - targetFOV) > 0.1f)
-        {
-            virtualCamera.m_Lens.FieldOfView = Mathf.MoveTowards(virtualCamera.m_Lens.FieldOfView, targetFOV, Time.deltaTime * collisionFovTransitionSpeed);
-            yield return null;
-        }
-
-        // Ensure exact target FOV at the end
         virtualCamera.m_Lens.FieldOfView = targetFOV;
 
         // Transition back to default FOV

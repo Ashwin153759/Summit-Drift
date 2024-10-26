@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 3240244518912180346}
   - component: {fileID: 3205022998779049806}
   - component: {fileID: 3421366296064955702}
+  - component: {fileID: 4888869952219300199}
   - component: {fileID: 401712855642286921}
   - component: {fileID: 5297360489913878768}
   - component: {fileID: 3062860587778267968}
@@ -513,6 +514,27 @@ MonoBehaviour:
   hitMaxBurstCount: 100
   groundMinBurstCount: 5
   groundMaxBurstCount: 100
+--- !u!114 &4888869952219300199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654114115679883838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b8bac9546bfe241bdd620e2ca8ce6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 3823613585957813181}
+  perlinNoise: {fileID: 0}
+  defaultFOV: 70
+  boostFOV: 80
+  boostFovTransitionSpeed: 10
+  boostReturnFovTransitionSpeed: 2
+  minCollisionFOV: 55
+  collisionReturnFovTransitionSpeed: 2
+  maxCollisionIntensity: 25
 --- !u!114 &401712855642286921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,8 +553,7 @@ MonoBehaviour:
   boostFOV: 80
   boostFovTransitionSpeed: 10
   boostReturnFovTransitionSpeed: 2
-  maxCollisionFOV: 60
-  collisionFovTransitionSpeed: 10
+  minCollisionFOV: 60
   collisionReturnFovTransitionSpeed: 2
   maxCollisionIntensity: 40
 --- !u!114 &5297360489913878768
@@ -553,10 +574,9 @@ MonoBehaviour:
   boostFOV: 80
   boostFovTransitionSpeed: 10
   boostReturnFovTransitionSpeed: 2
-  maxCollisionFOV: 55
-  collisionFovTransitionSpeed: 80
-  collisionReturnFovTransitionSpeed: 7
-  maxCollisionIntensity: 40
+  minCollisionFOV: 50
+  collisionReturnFovTransitionSpeed: 10
+  maxCollisionIntensity: 25
 --- !u!82 &3062860587778267968
 AudioSource:
   m_ObjectHideFlags: 0
@@ -931,6 +951,7 @@ GameObject:
   - component: {fileID: 543677125460910144}
   - component: {fileID: 4562898006798167412}
   - component: {fileID: 7010165241743802495}
+  - component: {fileID: 3033448580835421249}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1032,6 +1053,23 @@ MonoBehaviour:
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &7010165241743802495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2722280595412394527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: e9ce97b7a206dc64d90931ea044e0c72, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &3033448580835421249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
