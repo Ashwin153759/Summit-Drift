@@ -531,7 +531,7 @@ MonoBehaviour:
   boostFovTransitionSpeed: 10
   boostReturnFovTransitionSpeed: 2
   minCollisionFOV: 55
-  collisionReturnFovTransitionSpeed: 10
+  collisionReturnFovTransitionSpeed: 8
   maxCollisionIntensity: 30
 --- !u!82 &3062860587778267968
 AudioSource:
