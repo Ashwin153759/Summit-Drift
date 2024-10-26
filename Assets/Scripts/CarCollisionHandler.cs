@@ -7,6 +7,7 @@ public class CarCollisionHandler : MonoBehaviour
     [SerializeField] private GameObject groundParticleEffectPrefab;
     [SerializeField] private LayerMask collisionLayer;
     [SerializeField] private LayerMask drivableLayer;
+    [SerializeField] private AudioSource carCrashSound;
 
     [Header("Hit Effect Size Settings")]
     [SerializeField] private float hitMinStartSize = 0.005f;
@@ -36,14 +37,22 @@ public class CarCollisionHandler : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Trigger Camera Shake
-        //carCameraEffects.TriggerCameraShake(collision.relativeVelocity.magnitude / 25f, 0.07f);
+        //carCameraEffects.TriggerCameraShake(magnitude / 25f, 0.07f);
+
+        float magnitude = collision.relativeVelocity.magnitude;
+
+        if (magnitude < 7)
+            return;
+
+        // Car Hit Sound Effect
+        carCrashSound.Play();
 
         // Check for collisions with obstacles
         if ((collisionLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
             GameObject particleEffect = Instantiate(hitParticleEffectPrefab, collision.contacts[0].point, Quaternion.identity);
             AdjustHitParticleEffect(particleEffect);
-            carCameraEffects.TriggerCollisionFOV(collision.relativeVelocity.magnitude);
+            carCameraEffects.TriggerCollisionFOV(magnitude);
         }
 
         // Check for ground collisions at a specific falling speed
