@@ -38,14 +38,12 @@ public class CarCollisionHandler : MonoBehaviour
         // Trigger Camera Shake
         //carCameraEffects.TriggerCameraShake(collision.relativeVelocity.magnitude / 25f, 0.07f);
 
-        carCameraEffects.TriggerCollisionFOV(collision.relativeVelocity.magnitude);
-
         // Check for collisions with obstacles
         if ((collisionLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
             GameObject particleEffect = Instantiate(hitParticleEffectPrefab, collision.contacts[0].point, Quaternion.identity);
             AdjustHitParticleEffect(particleEffect);
-
+            carCameraEffects.TriggerCollisionFOV(collision.relativeVelocity.magnitude);
         }
 
         // Check for ground collisions at a specific falling speed

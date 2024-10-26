@@ -147,11 +147,6 @@ public class CarController : MonoBehaviour
         get { return carVelocityRatio; }
     }
 
-    public bool IsBoosting
-    {
-        get { return isBoosting; }
-    }
-
     #endregion
 
     #region User Inputs
