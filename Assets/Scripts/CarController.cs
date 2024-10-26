@@ -52,6 +52,8 @@ public class CarController : MonoBehaviour
     [Range(1, 5)] private float maxPitch = 1f;
 
     private Rigidbody carRB;
+    private CarCameraEffects carCameraEffects;
+
     private Vector3 currentCarLocalVelocity = Vector3.zero;
     private float carVelocityRatio = 0;
 
@@ -103,6 +105,8 @@ public class CarController : MonoBehaviour
 
     private void Start()
     {
+        carCameraEffects = GetComponent<CarCameraEffects>();
+
         Vector3 localCenterOfMass = transform.InverseTransformPoint(centerOfMass.position);
         carRB.centerOfMass = localCenterOfMass;
 
@@ -361,12 +365,16 @@ public class CarController : MonoBehaviour
         {
             StartSound(boostSound);
             isBoostSoundPlaying = true;
+
+            carCameraEffects.StartBoostFOV();
         }
         else if (!isBoosting && isBoostSoundPlaying)
         {
             StopSound(boostSound);
             StartSound(boostEndSound);
             isBoostSoundPlaying = false;
+
+            carCameraEffects.StopBoostFOV();
         }
 
         // Turn on / off Boost in Exhaust
