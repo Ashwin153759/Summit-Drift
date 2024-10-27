@@ -5,7 +5,7 @@ using UnityEngine;
 public class RandomCheerAndCheerDistance : MonoBehaviour
 {
 
-    [SerializeField] private GameObject car;
+    private GameObject car;
 
     private float cheerDistance = 10f;
     private Animator animator;
