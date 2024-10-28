@@ -33,7 +33,7 @@ Material:
   - _FOAM_ON
   - _FOAM_WHITECAPS_ON
   - _NORMALSMODE_DUAL
-  - _REFLECTIONMODE_PROBES
+  - _REFLECTIONMODE_CUBEMAP
   - _SCATTERING_ON
   - _WORLD_UV
   - _ZWRITE_ON
@@ -220,7 +220,7 @@ Material:
     - _ReflectionFresnel: 7.46
     - _ReflectionFresnelNormal: 0.326
     - _ReflectionIntensity: 1
-    - _ReflectionMode: 2
+    - _ReflectionMode: 1
     - _ReflectionRoughness: 0.186
     - _Scattering: 1
     - _ScatteringIntensity: 0.75
@@ -235,13 +235,13 @@ Material:
     - _Surface: 0
     - _WaveAmplitude: 0.8
     - _WaveCount: 32
-    - _WaveEffectsBoost: 0.4
+    - _WaveEffectsBoost: 0.2
     - _WaveEndDistance: 100
     - _WaveLength: 2
     - _WaveNormal: 1
-    - _WaveSpeed: 13.9
+    - _WaveSpeed: 8
     - _WaveStartDistance: 20
-    - _WaveSteepness: 1
+    - _WaveSteepness: 0.358
     - _WorkflowMode: 1
     - _WorldUV: 1
     - _ZWrite: 1

@@ -16,42 +16,41 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        Debug.Log(Application.persistentDataPath);
-
         dataPath = Application.persistentDataPath + "/map_records.json";
         LoadRecords();
     }
 
-    public MapRecord GetMapRecord(string mapName, int numSectors)
+    public MapRecord GetMapRecord(string mapName, string carName, int numSectors = 3)
     {
-        if (!records.ContainsKey(mapName))
+        string key = GetRecordKey(mapName, carName);
+
+        if (!records.ContainsKey(key))
         {
-            records[mapName] = new MapRecord(mapName, numSectors);
+            records[key] = new MapRecord(mapName, numSectors);
         }
-        return records[mapName];
+        return records[key];
     }
 
-    public bool SaveRecord(string mapName, float lapTime, float[] sectorTimes)
+    public bool SaveRecord(string mapName, string carName, float lapTime, float[] sectorTimes)
     {
-        // If the map doesn't exist, initialize a new MapRecord
-        if (!records.ContainsKey(mapName))
+        string key = GetRecordKey(mapName, carName);
+
+        if (!records.ContainsKey(key))
         {
             int numSectors = sectorTimes.Length;
-            records[mapName] = new MapRecord(mapName, numSectors);
-            Debug.Log($"Created new record for map: {mapName}");
+            records[key] = new MapRecord(mapName, numSectors);
+            Debug.Log($"Created new record for map: {mapName} and car: {carName}");
         }
 
-        MapRecord record = records[mapName];
+        MapRecord record = records[key];
         bool isNewBestLap = lapTime < record.bestLapTime;
         bool isNewBestSector = false;
 
-        // Update best lap time if the current lap is faster
         if (isNewBestLap)
         {
             record.bestLapTime = lapTime;
         }
 
-        // Check and update each sector time if it’s a new best
         for (int i = 0; i < sectorTimes.Length; i++)
         {
             if (sectorTimes[i] < record.bestSectorTimes[i])
@@ -61,11 +60,13 @@ public class DataManager : MonoBehaviour
             }
         }
 
-        // Save the updated records
         SaveRecords();
-
-        // Return true if either a new best lap or sector was achieved
         return isNewBestLap || isNewBestSector;
+    }
+
+    private string GetRecordKey(string mapName, string carName)
+    {
+        return $"{mapName}_{carName}";
     }
 
     private void LoadRecords()
