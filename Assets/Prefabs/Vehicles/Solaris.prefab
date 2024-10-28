@@ -25109,8 +25109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2725867939456006017}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17437553, y: 0.00000012644055, z: -0.000000036878497, w: 0.9846793}
-  m_LocalPosition: {x: -0.0000009536745, y: 2.9799995, z: -8.1500025}
+  m_LocalRotation: {x: -0.028092157, y: -0.97181726, z: 0.17209782, w: -0.15863329}
+  m_LocalPosition: {x: -2.591655, y: 2.9799995, z: 7.7269564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40284,12 +40284,12 @@ MonoBehaviour:
   springStiffness: 50000
   damperStiffness: 6000
   restLength: 0.5
-  springTravel: 0.27
+  springTravel: 0.29
   wheelRadius: 0.41
   steerSensitivity: 1.5
   steerDamping: 7
   acceleration: 30
-  maxSpeed: 80
+  maxSpeed: 90
   deceleration: 30
   steerStrength: 12
   turningCurve:

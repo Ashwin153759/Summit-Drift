@@ -17,6 +17,7 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         dataPath = Application.persistentDataPath + "/map_records.json";
+        Debug.Log(dataPath);
         LoadRecords();
     }
 
