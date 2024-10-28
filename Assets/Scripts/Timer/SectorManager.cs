@@ -12,7 +12,7 @@ public class SectorManager : MonoBehaviour
     private int currentSector = 1;
 
     private DataManager dataManager;
-    
+
     private void Start()
     {
         dataManager = FindObjectOfType<DataManager>();
@@ -41,32 +41,56 @@ public class SectorManager : MonoBehaviour
         {
             case 1:
                 sector1Time = currentLapTime;
-                sector1Text.text = "Sector 1: " + sector1Time.ToString("F3");
-                sector1Text.enabled = true;
+                UpdateSectorText(sector1Text, sector1Time, 0);
                 currentSector = 2;
                 break;
 
             case 2:
                 sector2Time = currentLapTime - sector1Time;
-                sector2Text.text = "Sector 2: " + sector2Time.ToString("F3");
-                sector2Text.enabled = true;
+                UpdateSectorText(sector2Text, sector2Time, 1);
                 currentSector = 3;
                 break;
 
             case 3:
                 sector3Time = currentLapTime - sector1Time - sector2Time;
-                sector3Text.text = "Sector 3: " + sector3Time.ToString("F3");
-                sector3Text.enabled = true;
+                UpdateSectorText(sector3Text, sector3Time, 2);
 
                 // Stop the lap timer
                 lapTimer.StopLap();
 
                 // Calculate total lap time and update records
                 float totalLapTime = lapTimer.lapTime;
+                UpdateLapTimeText(totalLapTime);
                 SaveAndDisplayBestTimes(totalLapTime);
+
+                currentSector = 1;
 
                 break;
         }
+    }
+
+    private void UpdateSectorText(TextMeshProUGUI sectorText, float newTime, int sectorIndex)
+    {
+        MapRecord record = dataManager.GetMapRecord(currentMap, 3);
+        bool improved = newTime < record.bestSectorTimes[sectorIndex];
+
+        // Update text color based on whether it improved
+        sectorText.color = improved ? Color.green : Color.red;
+        sectorText.text = $"Sector {sectorIndex + 1}: " + newTime.ToString("F3");
+        sectorText.enabled = true;
+    }
+
+    private void UpdateLapTimeText(float newLapTime)
+    {
+        MapRecord record = dataManager.GetMapRecord(currentMap, 3);
+        bool isNewBestLap = newLapTime < record.bestLapTime;
+
+        TextMeshProUGUI lapTimeText = lapTimer.lapTimeText;
+
+        // Set lap time color based on improvement
+        lapTimeText.color = isNewBestLap ? Color.green : Color.red;
+        lapTimeText.text = "Lap Time: " + newLapTime.ToString("F3");
+        lapTimeText.enabled = true;
     }
 
     private void SaveAndDisplayBestTimes(float totalLapTime)
@@ -89,14 +113,10 @@ public class SectorManager : MonoBehaviour
     private void DisplayBestTimes(MapRecord record)
     {
         Debug.Log("Best Lap Time: " + record.bestLapTime.ToString("F3"));
-        
-        //for (int i = 0; i < record.bestSectorTimes.Length; i++)
-        //{
-        //    Debug.Log($"Best Sector {i + 1} Time: {record.bestSectorTimes[i].ToString("F3")}");
-        //}
 
-        // sector1Text.text = "Best Sector 1: " + record.bestSectorTimes[0].ToString("F3");
-        // sector2Text.text = "Best Sector 2: " + record.bestSectorTimes[1].ToString("F3");
-        // sector3Text.text = "Best Sector 3: " + record.bestSectorTimes[2].ToString("F3");
+        // Display best times for each sector
+        Debug.Log($"Best Sector 1: {record.bestSectorTimes[0]:F3}");
+        Debug.Log($"Best Sector 2: {record.bestSectorTimes[1]:F3}");
+        Debug.Log($"Best Sector 3: {record.bestSectorTimes[2]:F3}");
     }
 }
