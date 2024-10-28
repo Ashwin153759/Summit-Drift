@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
         if (lapTimer != null && carController != null)
         {
+            carController.SetControlsActive(false);
             StartRace();
         }
     }

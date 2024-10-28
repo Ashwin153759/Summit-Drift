@@ -99,6 +99,10 @@ public class CarController : MonoBehaviour
         // Drift button handling (true when pressed, false when released)
         inputActions.Car.Drift.performed += ctx => StartDrifting();
         inputActions.Car.Drift.canceled += ctx => EndDrifting();
+        
+        
+        // ONLY FOR TESTING
+        inputActions.Enable();
 
     }
 
