@@ -1,36 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenuUI : MonoBehaviour {
-
-
+public class MainMenuUI : MonoBehaviour
+{
     [SerializeField] private Button startRaceButton;
     [SerializeField] private Button garageButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
 
-    [SerializeField] private GameObject mainMenuUI;
-    [SerializeField] private GameObject settingsMenuUI;
+    private GameManager gameManager;
 
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
 
-    private void Awake() {
-        startRaceButton.onClick.AddListener(() => {
-            SceneManager.LoadScene(1);
+        if (gameManager == null)
+        {
+            Debug.Log("GameManager NOT FOUND");
+            return;
+        }
+
+        startRaceButton.onClick.AddListener(() =>
+        {
+            // hard coded for now 
+            string selectedScene = "Main";
+            gameManager.LoadRaceScene(selectedScene);
         });
 
-        garageButton.onClick.AddListener(() => {
-            
-        });
-
-        settingsButton.onClick.AddListener(() => {
-        });
-
-        quitButton.onClick.AddListener(() => {
+        garageButton.onClick.AddListener(() => { /* Garage logic */ });
+        settingsButton.onClick.AddListener(() => { /* Settings logic */ });
+        quitButton.onClick.AddListener(() =>
+        {
             Application.Quit();
         });
     }
-
 }

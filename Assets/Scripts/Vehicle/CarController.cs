@@ -100,8 +100,6 @@ public class CarController : MonoBehaviour
         inputActions.Car.Drift.performed += ctx => StartDrifting();
         inputActions.Car.Drift.canceled += ctx => EndDrifting();
 
-        // Enable input actions
-        inputActions.Enable();
     }
 
     private void Start()
@@ -169,6 +167,18 @@ public class CarController : MonoBehaviour
 
         // Assign the accumulated value to steerInput, which will be used in the steering code
         steerInput = accumulatedSteerInput;
+    }
+
+    public void SetControlsActive(bool isActive)
+    {
+        if (isActive)
+        {
+            inputActions.Enable();
+        }
+        else
+        {
+            inputActions.Disable();
+        }
     }
 
     #endregion

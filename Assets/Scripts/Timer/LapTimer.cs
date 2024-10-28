@@ -4,17 +4,13 @@ using TMPro;
 public class LapTimer : MonoBehaviour
 {
     public TextMeshProUGUI lapTimeText;
-    public bool lapActive = true;
+    private bool lapActive = false;
     public float lapTime = 0f;
 
-    private GameManager gameManager;
-
-    private void Start()
+    public void StartLap()
     {
-        // Find the GameManager instance
-        gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null)
-            gameManager.StartRace();
+        lapTime = 0f;
+        lapActive = true;
     }
 
     private void Update()
@@ -28,24 +24,11 @@ public class LapTimer : MonoBehaviour
 
     private void DisplayLapTime()
     {
-        // Continuously updates the lap time display in 3 decimal format
         lapTimeText.text = "Lap Time: " + lapTime.ToString("F3");
-    }
-
-    public void ResetLap()
-    {
-        lapTime = 0f;
-        lapActive = true;
-        
-        if (gameManager != null)
-            gameManager.StartRace();
     }
 
     public void StopLap()
     {
         lapActive = false;
-        
-        if (gameManager != null)
-            gameManager.EndRace();
     }
 }

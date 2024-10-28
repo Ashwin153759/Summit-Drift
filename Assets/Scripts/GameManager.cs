@@ -1,15 +1,15 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private CarInputActions inputActions;
+    private LapTimer lapTimer;
+    private CarController carController;
 
     private void Awake()
     {
-        // Implement singleton pattern
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -19,26 +19,54 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Initialize input actions in Awake
         inputActions = new CarInputActions();
         inputActions.Car.Reset.performed += ctx => ResetRace();
     }
 
+    public void LoadRaceScene(string sceneName)
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == SceneManager.GetActiveScene().name)
+        {
+            SetupRace();
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void SetupRace()
+    {
+        lapTimer = FindObjectOfType<LapTimer>();
+        carController = FindObjectOfType<CarController>();
+
+        if (lapTimer != null && carController != null)
+        {
+            StartRace();
+        }
+    }
+
     public void StartRace()
     {
+        lapTimer.StartLap();
+
+        // Enable Inputs
         inputActions.Enable();
+        carController.SetControlsActive(true);
     }
 
     public void EndRace()
     {
+        // Disable Inputs
         inputActions.Disable();
+        carController?.SetControlsActive(false);
     }
 
     public void ResetRace()
     {
-        // Reload the current scene to reset the race
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-        // place car in starting position again
     }
 }

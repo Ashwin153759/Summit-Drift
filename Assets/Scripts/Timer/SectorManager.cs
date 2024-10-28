@@ -139,8 +139,8 @@ public class SectorManager : MonoBehaviour
     private void DisplayBestTimes(MapRecord record)
     {
         Debug.Log("Best Lap Time: " + record.bestLapTime.ToString("F3"));
-        Debug.Log($"Best Sector 1: {record.bestSectorTimes[0]:F3}");
-        Debug.Log($"Best Sector 2: {record.bestSectorTimes[1]:F3}");
-        Debug.Log($"Best Sector 3: {record.bestSectorTimes[2]:F3}");
+        //Debug.Log($"Best Sector 1: {record.bestSectorTimes[0]:F3}");
+        //Debug.Log($"Best Sector 2: {record.bestSectorTimes[1]:F3}");
+        //Debug.Log($"Best Sector 3: {record.bestSectorTimes[2]:F3}");
     }
 }
