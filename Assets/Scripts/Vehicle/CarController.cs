@@ -37,6 +37,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float driftDeceleration = 100f;
     [SerializeField] private float DriftDragCoefficient = 0.5f;
     [SerializeField] private float sidewaysDragTransitionSpeed = 2f;
+    [SerializeField] private float boostMultiplier = 1f;
 
     [Header("Visuals")]
     [SerializeField] private float tireRotSpeed = 3000f;
@@ -265,7 +266,7 @@ public class CarController : MonoBehaviour
     private void ApplyDriftBoost()
     {
         // Calculate boost strength based on drift duration and intensity
-        boostStrength = driftDuration * driftIntensity * 0.5f;
+        boostStrength = driftDuration * driftIntensity * 0.5f * boostMultiplier;
 
         // Apply boost for a duration based on drift
         float boostDuration = Mathf.Clamp(driftDuration, 0.5f, 3f);
