@@ -28535,8 +28535,8 @@ MonoBehaviour:
   wheelRadius: 0.33
   steerSensitivity: 1.5
   steerDamping: 7
-  acceleration: 22
-  maxSpeed: 70
+  acceleration: 24
+  maxSpeed: 80
   deceleration: 20
   steerStrength: 15
   turningCurve:
@@ -28691,7 +28691,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a1544bbb797979147bd188ed82086fd3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5cc53e809ef95684999a6eb661ba950c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.2
   m_Pitch: 0.8
