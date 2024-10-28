@@ -28536,7 +28536,7 @@ MonoBehaviour:
   steerSensitivity: 1.5
   steerDamping: 7
   acceleration: 22
-  maxSpeed: 60
+  maxSpeed: 70
   deceleration: 20
   steerStrength: 15
   turningCurve:
