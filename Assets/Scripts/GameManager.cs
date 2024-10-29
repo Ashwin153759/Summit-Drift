@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator DelayedStartGhostPlayback(GhostData bestLapData, float interval)
     {
         // Adjust delay if necessary
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         ghostPlayback.StartPlayback(bestLapData, interval);
     }
 
