@@ -40252,7 +40252,7 @@ MonoBehaviour:
   - {fileID: 6821498479104252614}
   drivable:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   accelerationPoint: {fileID: 7231396755463840415}
   tires:
   - {fileID: 8853523819020319764}

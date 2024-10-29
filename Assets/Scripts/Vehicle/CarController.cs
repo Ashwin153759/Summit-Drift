@@ -82,6 +82,8 @@ public class CarController : MonoBehaviour
     // Ground Detected
     private int[] wheelsIsGrounded = new int[4];
     private bool isGrounded = false;
+    private bool carOfftrack;
+    private int offtrackLayer;
 
     #region Unity Functions
 
@@ -99,6 +101,9 @@ public class CarController : MonoBehaviour
         // Drift button handling (true when pressed, false when released)
         inputActions.Car.Drift.performed += ctx => StartDrifting();
         inputActions.Car.Drift.canceled += ctx => EndDrifting();
+
+        // Get the offtrack layer index
+        offtrackLayer = LayerMask.NameToLayer("Mountain");
     }
 
     private void Start()
@@ -220,6 +225,10 @@ public class CarController : MonoBehaviour
         float forceDirection = currentCarLocalVelocity.z > 0 ? 1f : -1f;
 
         float decelerationForce = (isDrifting ? driftDeceleration : deceleration) * Mathf.Abs(carVelocityRatio);
+
+        // If the car is offtrack make them slower
+        decelerationForce = (carOfftrack ? decelerationForce * 5 : decelerationForce);
+
         carRB.AddForceAtPosition(-decelerationForce * transform.forward * forceDirection, accelerationPoint.position, ForceMode.Acceleration);
     }
 
@@ -496,20 +505,33 @@ public class CarController : MonoBehaviour
     private void GroundCheck()
     {
         int tempGroundedWheels = 0;
+        bool wheelsOnMountain = true;
 
         for (int i = 0; i < wheelsIsGrounded.Length; i++)
         {
-            tempGroundedWheels += wheelsIsGrounded[i];
+            RaycastHit hit;
+            float maxDistance = restLength;
+
+            if (Physics.Raycast(rayPoints[i].position, -rayPoints[i].up, out hit, maxDistance + wheelRadius, drivable))
+            {
+                wheelsIsGrounded[i] = 1;
+                tempGroundedWheels++;
+
+                // Check if the wheel is on the mountain layer
+                if (hit.collider.gameObject.layer != offtrackLayer)
+                {
+                    wheelsOnMountain = false;
+                }
+            }
+            else
+            {
+                wheelsIsGrounded[i] = 0;
+                wheelsOnMountain = false;
+            }
         }
 
-        if (tempGroundedWheels > 1)
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        isGrounded = tempGroundedWheels > 1;
+        carOfftrack = wheelsOnMountain;
     }
 
     private void CalculateCarVelocity()
