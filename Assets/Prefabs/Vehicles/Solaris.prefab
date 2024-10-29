@@ -40177,6 +40177,7 @@ GameObject:
   - component: {fileID: 3306759245942898142}
   - component: {fileID: 9062887747650419967}
   - component: {fileID: 1684534976706617437}
+  - component: {fileID: -8731712005679126850}
   m_Layer: 0
   m_Name: Solaris
   m_TagString: Player
@@ -40722,6 +40723,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8731712005679126850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911486370169790147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 265135646d75c17489b62282e20ff546, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recordInterval: 0.1
 --- !u!1 &6026867818286616981
 GameObject:
   m_ObjectHideFlags: 0

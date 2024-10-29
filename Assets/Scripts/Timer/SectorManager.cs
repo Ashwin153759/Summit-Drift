@@ -1,30 +1,34 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SectorManager : MonoBehaviour
 {
-    [SerializeField] private string currentMap = "MapName";
     public LapTimer lapTimer;
     public TextMeshProUGUI sector1Text, sector2Text, sector3Text;
     private float sector1Time, sector2Time, sector3Time;
     private int currentSector = 1;
 
     private DataManager dataManager;
+    private GameManager gameManager;
     private string carName;
+
+    // Get the Map name
+    private string CurrentMap => SceneManager.GetActiveScene().name;
 
     private void Start()
     {
         dataManager = FindObjectOfType<DataManager>();
+        gameManager = FindObjectOfType<GameManager>();
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
+        if (gameManager == null)
         {
-            if (player.GetComponent<CarController>() != null)
-            {
-                carName = player.name;
-                break;
-            }
+            Debug.LogError("GameManager not found");
+            return;
         }
+
+        // Fetch car name from GameManager
+        carName = gameManager.GetSelectedCarName();
 
         // Initially hide all sector times
         sector1Text.enabled = false;
@@ -32,7 +36,7 @@ public class SectorManager : MonoBehaviour
         sector3Text.enabled = false;
 
         // Fetch and display best times at the start
-        MapRecord bestRecord = dataManager.GetMapRecord(currentMap, carName);
+        MapRecord bestRecord = dataManager.GetMapRecord(CurrentMap, carName);
         DisplayBestTimes(bestRecord);
     }
 
@@ -67,16 +71,20 @@ public class SectorManager : MonoBehaviour
 
                 float totalLapTime = lapTimer.lapTime;
                 UpdateLapTimeText(totalLapTime);
-                
+
                 SaveAndDisplayBestTimes(totalLapTime);
                 currentSector = 1;
+
+                // End the race with the current map and car name
+                gameManager.EndRace(CurrentMap, carName);
+
                 break;
         }
     }
 
     private void UpdateSectorText(TextMeshProUGUI sectorText, float newTime, int sectorIndex)
     {
-        MapRecord record = dataManager.GetMapRecord(currentMap, carName);
+        MapRecord record = dataManager.GetMapRecord(CurrentMap, carName);
 
         // Check if there’s an existing best time to compare
         if (record.bestSectorTimes[sectorIndex] < float.MaxValue)
@@ -100,7 +108,7 @@ public class SectorManager : MonoBehaviour
 
     private void UpdateLapTimeText(float newLapTime)
     {
-        MapRecord record = dataManager.GetMapRecord(currentMap, carName);
+        MapRecord record = dataManager.GetMapRecord(CurrentMap, carName);
 
         // Only show delta if there’s an existing best lap time
         if (record.bestLapTime < float.MaxValue)
@@ -124,10 +132,10 @@ public class SectorManager : MonoBehaviour
     private void SaveAndDisplayBestTimes(float totalLapTime)
     {
         float[] sectorTimes = { sector1Time, sector2Time, sector3Time };
-        bool isNewBestLap = dataManager.SaveRecord(currentMap, carName, totalLapTime, sectorTimes);
+        bool isNewBestLap = dataManager.SaveRecord(CurrentMap, carName, totalLapTime, sectorTimes);
 
         // Fetch the updated best times and display them
-        MapRecord updatedRecord = dataManager.GetMapRecord(currentMap, carName);
+        MapRecord updatedRecord = dataManager.GetMapRecord(CurrentMap, carName);
         DisplayBestTimes(updatedRecord);
 
         if (isNewBestLap)
@@ -139,8 +147,5 @@ public class SectorManager : MonoBehaviour
     private void DisplayBestTimes(MapRecord record)
     {
         Debug.Log("Best Lap Time: " + record.bestLapTime.ToString("F3"));
-        //Debug.Log($"Best Sector 1: {record.bestSectorTimes[0]:F3}");
-        //Debug.Log($"Best Sector 2: {record.bestSectorTimes[1]:F3}");
-        //Debug.Log($"Best Sector 3: {record.bestSectorTimes[2]:F3}");
     }
 }

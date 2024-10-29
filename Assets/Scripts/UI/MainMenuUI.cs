@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,9 +23,10 @@ public class MainMenuUI : MonoBehaviour
 
         startRaceButton.onClick.AddListener(() =>
         {
-            // hard coded for now 
             string selectedScene = "Main";
-            gameManager.LoadRaceScene(selectedScene);
+            string selectedCarName = "Marauder";
+            gameManager.SetSelectedCarName(selectedCarName); // garage does this in future
+            gameManager.LoadRaceScene(selectedScene); 
         });
 
         garageButton.onClick.AddListener(() => { /* Garage logic */ });
