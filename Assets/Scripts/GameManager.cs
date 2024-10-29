@@ -164,8 +164,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("New Best Lap Saved for " + mapName + " - " + carName);
         }
 
-        // Disable ghost playback when the race ends // TODO
-        ghostPlayback.StopPlayback();
+        // Disable ghost playback when the race ends
+        ghostPlayback?.StopPlayback();
     }
 
     private bool IsBestLap(GhostData newLapData, string mapName, string carName)
