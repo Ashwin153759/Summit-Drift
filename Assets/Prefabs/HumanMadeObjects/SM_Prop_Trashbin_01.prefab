@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7898727795620582033}
   - component: {fileID: 2262762145069694075}
   - component: {fileID: 3374295249694000247}
-  - component: {fileID: 8472373103562565407}
+  - component: {fileID: 4685173914459954894}
   m_Layer: 0
   m_Name: SM_Prop_Trashbin_01
   m_TagString: Untagged
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8472373103562565407
-MeshCollider:
+--- !u!65 &4685173914459954894
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,7 +102,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43374307463234346, guid: 6fbd47cf8e399734581354496444362e, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 0.6470232, y: 1.1784372, z: 0.6470337}
+  m_Center: {x: -0.00000047683716, y: 0.5892186, z: 0.0000076293945}
