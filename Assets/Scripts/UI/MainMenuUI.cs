@@ -9,6 +9,17 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
 
+    [SerializeField]
+
+    public enum CarType
+    {
+        Marauder,
+        Cyclone,
+        Solaris
+    }
+
+    [SerializeField] private CarType selectedCar;
+
     private GameManager gameManager;
 
     private void Awake()
@@ -24,7 +35,8 @@ public class MainMenuUI : MonoBehaviour
         startRaceButton.onClick.AddListener(() =>
         {
             string selectedScene = "Main";
-            string selectedCarName = "Marauder";
+            string selectedCarName = selectedCar.ToString();
+
             gameManager.SetSelectedCarName(selectedCarName); // garage does this in future
             gameManager.LoadRaceScene(selectedScene); 
         });

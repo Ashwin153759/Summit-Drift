@@ -1616,8 +1616,7 @@ MonoBehaviour:
   garageButton: {fileID: 2095638821}
   settingsButton: {fileID: 990201114}
   quitButton: {fileID: 992885068}
-  mainMenuUI: {fileID: 505846441}
-  settingsMenuUI: {fileID: 1833294464}
+  selectedCar: 1
 --- !u!1 &508150284
 GameObject:
   m_ObjectHideFlags: 0
