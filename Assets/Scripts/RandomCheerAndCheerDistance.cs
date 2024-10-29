@@ -7,7 +7,7 @@ public class RandomCheerAndCheerDistance : MonoBehaviour
 
     private GameObject car;
 
-    private float cheerDistance = 30f;
+    private float cheerDistance = 10f;
     private Animator animator;
 
     void Start() {

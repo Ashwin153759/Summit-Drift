@@ -18,18 +18,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowMainMenu() {
         mainMenuUI.SetActive(true);
-        settingsUI.SetActive(false);
-        audioSettingsUI.SetActive(false);
 
         //make sure no button stays highlighted when swithing from menu to menu
         ResetAllButtonStates();
     }
 
     public void ShowSettings() {
-        mainMenuUI.SetActive(false);
+        //mainMenuUI.SetActive(false);
         settingsUI.SetActive(true);
-        audioSettingsUI.SetActive(false);
-        controlsUI.SetActive(false);
 
         ResetAllButtonStates();
     }
