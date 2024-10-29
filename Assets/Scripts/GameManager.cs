@@ -2,9 +2,13 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject[] carPrefabs;
+    [SerializeField] private GameObject[] ghostPrefabs;
+
     private static GameManager instance;
     private CarInputActions inputActions;
     private LapTimer lapTimer;
@@ -15,6 +19,7 @@ public class GameManager : MonoBehaviour
     private string ghostDataDirectory;
     private string selectedCarName;
     private string currentMap;
+    private Transform startRaceLocation;
 
     private void Awake()
     {
@@ -68,18 +73,50 @@ public class GameManager : MonoBehaviour
     private void SetupRace(string mapName, string carName)
     {
         lapTimer = FindObjectOfType<LapTimer>();
-        carController = FindObjectOfType<CarController>();
 
-        ghostRecorder = FindObjectOfType<GhostRecorder>();
         ghostPlayback = FindObjectOfType<GhostPlayback>();
 
         currentMap = mapName;
+        GameObject startRaceLocationObject = GameObject.Find("StartRaceLocation");
 
-        // SPAWN CAR && GHOST
+        // Spawn Player Car
+        if (startRaceLocationObject == null)
+        {
+            Debug.Log("Cannot find start point of race");
+        }
+
+        // Spawn Player Car
+        GameObject carPrefab = GetCarPrefabByName(carName, carPrefabs);
+        if (carPrefab == null)
+        {
+            Debug.LogError("Car not found");
+            return;
+        }
+
+        GameObject carInstance = Instantiate(carPrefab, startRaceLocationObject.transform.position, startRaceLocationObject.transform.rotation);
+        carController = carInstance.GetComponent<CarController>();
+        ghostRecorder = carInstance.GetComponent<GhostRecorder>();
+
+        // Spawn Ghost Car
+        GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
+        if (bestLapData != null)
+        {
+            GameObject ghostPrefab = GetCarPrefabByName(carName + "_Ghost", ghostPrefabs);
+            if (ghostPrefab == null)
+            {
+                Debug.LogError("Ghost Car not found");
+                return;
+            }
+
+            GameObject ghostInstance = Instantiate(ghostPrefab, startRaceLocationObject.transform.position, startRaceLocationObject.transform.rotation);
+            ghostPlayback = ghostInstance.GetComponent<GhostPlayback>();
+        }
 
         if (lapTimer != null && carController != null)
         {
+            inputActions.Disable();
             carController.SetControlsActive(false);
+
             StartRace();
         }
     }
@@ -95,15 +132,11 @@ public class GameManager : MonoBehaviour
         inputActions.Enable();
         carController.SetControlsActive(true);
 
-        // Start the Ghost Playback
+        // Start the Ghost Playback (ghostPlayback only gets populated if we find a playback)
         if (ghostRecorder != null && ghostPlayback != null)
         {
-            Debug.Log(GetGhostFilePath(currentMap, selectedCarName));
-            GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
-            if (bestLapData != null)
-            {
-                StartCoroutine(DelayedStartGhostPlayback(bestLapData, ghostRecorder.recordInterval));
-            }
+           GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
+            StartCoroutine(DelayedStartGhostPlayback(bestLapData, ghostRecorder.recordInterval));
         }
     }
 
@@ -131,7 +164,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("New Best Lap Saved for " + mapName + " - " + carName);
         }
 
-        // Disable ghost playback when the race ends
+        // Disable ghost playback when the race ends // TODO
         ghostPlayback.StopPlayback();
     }
 
@@ -150,6 +183,18 @@ public class GameManager : MonoBehaviour
     {
         string fileName = $"{mapName}_{carName}_BestLap.json";
         return Path.Combine(ghostDataDirectory, fileName);
+    }
+
+    private GameObject GetCarPrefabByName(string carName, GameObject[] list)
+    {
+        foreach (var prefab in list)
+        {
+            if (prefab.name == carName)
+            {
+                return prefab;
+            }
+        }
+        return null;
     }
 
     public void ResetRace()
