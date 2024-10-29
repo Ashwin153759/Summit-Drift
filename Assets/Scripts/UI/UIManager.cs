@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject audioSettingsUI;
+    [SerializeField] private GameObject controlsUI;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
         mainMenuUI.SetActive(false);
         settingsUI.SetActive(true);
         audioSettingsUI.SetActive(false);
+        controlsUI.SetActive(false);
 
         ResetAllButtonStates();
     }
@@ -36,6 +38,16 @@ public class UIManager : MonoBehaviour
         mainMenuUI.SetActive(false);
         settingsUI.SetActive(false);
         audioSettingsUI.SetActive(true);
+        controlsUI.SetActive(false);
+
+        ResetAllButtonStates();
+    }
+
+    public void ShowControls() {
+        mainMenuUI.SetActive(false);
+        settingsUI.SetActive(false);
+        audioSettingsUI.SetActive(false);
+        controlsUI.SetActive(true);
 
         ResetAllButtonStates();
     }

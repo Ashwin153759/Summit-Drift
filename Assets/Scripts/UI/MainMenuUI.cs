@@ -43,6 +43,7 @@ public class MainMenuUI : MonoBehaviour
 
         garageButton.onClick.AddListener(() => { /* Garage logic */ });
         settingsButton.onClick.AddListener(() => { /* Settings logic */ });
+
         quitButton.onClick.AddListener(() =>
         {
             Application.Quit();
