@@ -15,7 +15,7 @@ public class GhostPlayback : MonoBehaviour
         currentFrame = 0;
         isPlaying = true;
         playbackTimer = 0f;
-        playbackInterval = interval;
+        playbackInterval = interval * 1.015f;
 
         // Set initial position and rotation
         if (ghostData.positions.Count > 0)
