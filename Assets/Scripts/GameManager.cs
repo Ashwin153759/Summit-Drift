@@ -2,10 +2,11 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
+    #region Fields and References
+
     [SerializeField] private GameObject[] carPrefabs;
     [SerializeField] private GameObject[] ghostPrefabs;
 
@@ -21,6 +22,10 @@ public class GameManager : MonoBehaviour
     private string currentMap;
     private Transform startRaceLocation;
 
+    #endregion
+
+    #region Initialization
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -32,17 +37,28 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Initialize input actions
+        InitializeInputActions();
+        SetupGhostDataDirectory();
+    }
+
+    private void InitializeInputActions()
+    {
         inputActions = new CarInputActions();
         inputActions.Car.Reset.performed += ctx => ResetRace();
+    }
 
-        // Set up directory for ghost data
+    private void SetupGhostDataDirectory()
+    {
         ghostDataDirectory = Path.Combine(Application.persistentDataPath, "GhostData");
         if (!Directory.Exists(ghostDataDirectory))
         {
             Directory.CreateDirectory(ghostDataDirectory);
         }
     }
+
+    #endregion
+
+    #region Car Selection and Scene Loading
 
     public void SetSelectedCarName(string carName)
     {
@@ -56,7 +72,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadRaceScene(string sceneName)
     {
-        // Pass the selectedCarName to OnSceneLoaded
         SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded(scene, selectedCarName);
         SceneManager.LoadScene(sceneName);
     }
@@ -70,22 +85,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Race Setup and Start
+
     private void SetupRace(string mapName, string carName)
     {
         lapTimer = FindObjectOfType<LapTimer>();
-
         ghostPlayback = FindObjectOfType<GhostPlayback>();
 
         currentMap = mapName;
         GameObject startRaceLocationObject = GameObject.Find("StartRaceLocation");
 
-        // Spawn Player Car
         if (startRaceLocationObject == null)
         {
-            Debug.Log("Cannot find start point of race");
+            Debug.LogError("Cannot find start point of race");
+            return;
         }
 
-        // Spawn Player Car
+        InstantiateCarAndGhost(startRaceLocationObject, carName);
+        InitializeRace();
+    }
+
+    private void InstantiateCarAndGhost(GameObject startRaceLocationObject, string carName)
+    {
         GameObject carPrefab = GetCarPrefabByName(carName, carPrefabs);
         if (carPrefab == null)
         {
@@ -97,7 +120,6 @@ public class GameManager : MonoBehaviour
         carController = carInstance.GetComponent<CarController>();
         ghostRecorder = carInstance.GetComponent<GhostRecorder>();
 
-        // Spawn Ghost Car
         GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
         if (bestLapData != null)
         {
@@ -111,7 +133,10 @@ public class GameManager : MonoBehaviour
             GameObject ghostInstance = Instantiate(ghostPrefab, startRaceLocationObject.transform.position, startRaceLocationObject.transform.rotation);
             ghostPlayback = ghostInstance.GetComponent<GhostPlayback>();
         }
+    }
 
+    private void InitializeRace()
+    {
         if (lapTimer != null && carController != null)
         {
             inputActions.Disable();
@@ -123,59 +148,50 @@ public class GameManager : MonoBehaviour
 
     public void StartRace()
     {
-        Debug.Log("Race Starts!");
-
-        // Start recording and enable controls
         lapTimer.StartLap();
         ghostRecorder.StartRecording();
 
         inputActions.Enable();
         carController.SetControlsActive(true);
 
-        // Start the Ghost Playback (ghostPlayback only gets populated if we find a playback)
         if (ghostRecorder != null && ghostPlayback != null)
         {
-           GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
+            GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
             StartCoroutine(DelayedStartGhostPlayback(bestLapData, ghostRecorder.recordInterval));
         }
     }
 
     private IEnumerator DelayedStartGhostPlayback(GhostData bestLapData, float interval)
     {
-        // Adjust delay if necessary
         yield return new WaitForSeconds(0.05f);
         ghostPlayback.StartPlayback(bestLapData, interval);
     }
 
+    #endregion
+
+    #region End Race and Reset
+
     public void EndRace(string mapName, string carName)
     {
-        Debug.Log("Race Ends!");
-
-        // Stop recording and disable controls
         GhostData recordedLap = ghostRecorder.StopRecording();
         lapTimer.StopLap();
         inputActions.Disable();
         carController.SetControlsActive(false);
 
-        // Check if this lap is the best lap and save it if true
         if (IsBestLap(recordedLap, mapName, carName))
         {
             ghostRecorder.SaveLapData(recordedLap, GetGhostFilePath(mapName, carName));
             Debug.Log("New Best Lap Saved for " + mapName + " - " + carName);
         }
 
-        // Disable ghost playback when the race ends
         ghostPlayback?.StopPlayback();
     }
 
     private bool IsBestLap(GhostData newLapData, string mapName, string carName)
     {
         GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(mapName, carName));
-
-        // No saved lap, so this is the best by default
         if (bestLapData == null) return true;
 
-        // Compare lap time or number of frames
         return newLapData.positions.Count < bestLapData.positions.Count;
     }
 
@@ -201,4 +217,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    #endregion
 }
