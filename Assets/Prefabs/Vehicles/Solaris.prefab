@@ -25109,7 +25109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2725867939456006017}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.028092157, y: -0.97181726, z: 0.17209782, w: -0.15863329}
+  m_LocalRotation: {x: 0.028092152, y: 0.9718172, z: -0.1720978, w: 0.15863328}
   m_LocalPosition: {x: -2.591655, y: 2.9799995, z: 7.7269564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -46548,7 +46548,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1899069434406952110}
   - component: {fileID: 6365742253452359295}
-  - component: {fileID: 8710541221809944841}
   - component: {fileID: 6490979296997054836}
   m_Layer: 0
   m_Name: LookBack
@@ -46623,14 +46622,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &8710541221809944841
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6735294605936561897}
-  m_Enabled: 1
 --- !u!114 &6490979296997054836
 MonoBehaviour:
   m_ObjectHideFlags: 0
