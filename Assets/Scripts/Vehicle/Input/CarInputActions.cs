@@ -62,6 +62,15 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookBack"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed249a55-a729-4e59-9cf6-2ec2bbe4db10"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -218,6 +227,28 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2baae20-9a38-45f8-b032-2f786b36d1c0"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""133ba214-2d59-4b92-af5b-9b1a7e16c411"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -230,6 +261,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         m_Car_Steer = m_Car.FindAction("Steer", throwIfNotFound: true);
         m_Car_Drift = m_Car.FindAction("Drift", throwIfNotFound: true);
         m_Car_Reset = m_Car.FindAction("Reset", throwIfNotFound: true);
+        m_Car_LookBack = m_Car.FindAction("LookBack", throwIfNotFound: true);
     }
 
     ~@CarInputActions()
@@ -300,6 +332,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Car_Steer;
     private readonly InputAction m_Car_Drift;
     private readonly InputAction m_Car_Reset;
+    private readonly InputAction m_Car_LookBack;
     public struct CarActions
     {
         private @CarInputActions m_Wrapper;
@@ -308,6 +341,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         public InputAction @Steer => m_Wrapper.m_Car_Steer;
         public InputAction @Drift => m_Wrapper.m_Car_Drift;
         public InputAction @Reset => m_Wrapper.m_Car_Reset;
+        public InputAction @LookBack => m_Wrapper.m_Car_LookBack;
         public InputActionMap Get() { return m_Wrapper.m_Car; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -329,6 +363,9 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
             @Reset.started += instance.OnReset;
             @Reset.performed += instance.OnReset;
             @Reset.canceled += instance.OnReset;
+            @LookBack.started += instance.OnLookBack;
+            @LookBack.performed += instance.OnLookBack;
+            @LookBack.canceled += instance.OnLookBack;
         }
 
         private void UnregisterCallbacks(ICarActions instance)
@@ -345,6 +382,9 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
             @Reset.started -= instance.OnReset;
             @Reset.performed -= instance.OnReset;
             @Reset.canceled -= instance.OnReset;
+            @LookBack.started -= instance.OnLookBack;
+            @LookBack.performed -= instance.OnLookBack;
+            @LookBack.canceled -= instance.OnLookBack;
         }
 
         public void RemoveCallbacks(ICarActions instance)
@@ -368,5 +408,6 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         void OnSteer(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnLookBack(InputAction.CallbackContext context);
     }
 }

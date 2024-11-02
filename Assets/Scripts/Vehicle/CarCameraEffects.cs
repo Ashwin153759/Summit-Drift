@@ -7,6 +7,7 @@ public class CarCameraEffects : MonoBehaviour
     [Header("Camera References")]
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private CinemachineBasicMultiChannelPerlin perlinNoise;
+    [SerializeField] private Camera lookBackCamera;
 
     [Header("General")]
     [SerializeField] private float defaultFOV = 70f;
@@ -26,6 +27,7 @@ public class CarCameraEffects : MonoBehaviour
     private Coroutine boostFOVCoroutine;
     private Coroutine collisionFOVCoroutine;
 
+    private CarInputActions inputActions;
 
     private void Awake()
     {
@@ -34,6 +36,14 @@ public class CarCameraEffects : MonoBehaviour
         ResetIntensity();
 
         virtualCamera.m_Lens.FieldOfView = defaultFOV;
+
+        inputActions = new CarInputActions();
+        inputActions.Car.LookBack.performed += _ => ActivateLookBack();
+        inputActions.Car.LookBack.canceled += _ => DeactivateLookBack();
+
+        inputActions.Enable();
+
+        DeactivateLookBack();
     }
 
     public void StartBoostFOV()
@@ -134,4 +144,18 @@ public class CarCameraEffects : MonoBehaviour
     {
         perlinNoise.m_AmplitudeGain = 0;
     }
+
+    #region Look Back
+
+    private void ActivateLookBack()
+    {
+        lookBackCamera.enabled = true;
+    }
+
+    private void DeactivateLookBack()
+    {
+        lookBackCamera.enabled = false;
+    }
+
+    #endregion
 }
