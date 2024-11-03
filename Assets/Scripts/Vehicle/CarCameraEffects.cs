@@ -149,12 +149,16 @@ public class CarCameraEffects : MonoBehaviour
 
     private void ActivateLookBack()
     {
-        lookBackCamera.enabled = true;
+        if (lookBackCamera != null)
+            lookBackCamera.enabled = true;
+       
     }
 
     private void DeactivateLookBack()
     {
-        lookBackCamera.enabled = false;
+        if (lookBackCamera != null)
+            lookBackCamera.enabled = false;
+        
     }
 
     #endregion
