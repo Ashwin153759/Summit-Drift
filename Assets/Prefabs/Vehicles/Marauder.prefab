@@ -624,7 +624,8 @@ MonoBehaviour:
   driftDeceleration: 30
   DriftDragCoefficient: 0.5
   sidewaysDragTransitionSpeed: 3
-  boostMultiplier: 1
+  boostMultiplier: 1.5
+  tireRotationMultipliers: 01000000010000000100000001000000
   tireRotSpeed: 3000
   maxSteeringAngle: 30
   minSideSkidVelocity: 8

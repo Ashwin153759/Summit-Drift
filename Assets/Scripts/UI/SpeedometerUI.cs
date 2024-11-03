@@ -23,7 +23,7 @@ public class SpeedometerUI : MonoBehaviour
 
     void Update()
     {
-        float speed = Mathf.Abs(carController.CurrentCarLocalVelocity.z * 2);
+        float speed = Mathf.Abs(carController.CurrentCarLocalVelocity.z * 2.5f);
 
         if (speedText != null)
             speedText.text = ((int)speed) + " km/h";

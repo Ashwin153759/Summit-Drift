@@ -2353,7 +2353,7 @@ MonoBehaviour:
   garageButton: {fileID: 2095638821}
   settingsButton: {fileID: 990201114}
   quitButton: {fileID: 992885068}
-  selectedCar: 0
+  selectedCar: 2
 --- !u!95 &505846446
 Animator:
   serializedVersion: 5

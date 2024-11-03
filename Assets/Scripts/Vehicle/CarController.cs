@@ -40,6 +40,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float boostMultiplier = 1f;
 
     [Header("Visuals")]
+    [SerializeField] int[] tireRotationMultipliers = new int[4];
     [SerializeField] private float tireRotSpeed = 3000f;
     [SerializeField] private float maxSteeringAngle = 30f;
     [SerializeField] private float minSideSkidVelocity = 10f;
@@ -209,8 +210,8 @@ public class CarController : MonoBehaviour
         // If moving backward, limit speed and acceleration
         if (moveInput < 0 && carVelocityRatio < 0)
         {
-            effectiveAcceleration *= 0.25f; 
-            effectiveMaxSpeed *= 0.25f;
+            effectiveAcceleration *= 0.5f; 
+            effectiveMaxSpeed *= 0.5f;
         }
 
         if (Mathf.Abs(currentCarLocalVelocity.z) < effectiveMaxSpeed)
@@ -227,7 +228,7 @@ public class CarController : MonoBehaviour
         float decelerationForce = (isDrifting ? driftDeceleration : deceleration) * Mathf.Abs(carVelocityRatio);
 
         // If the car is offtrack make them slower
-        decelerationForce = (carOfftrack ? decelerationForce * 5 : decelerationForce);
+        decelerationForce = (carOfftrack ? decelerationForce * 4 : decelerationForce);
 
         carRB.AddForceAtPosition(-decelerationForce * transform.forward * forceDirection, accelerationPoint.position, ForceMode.Acceleration);
     }
@@ -355,7 +356,7 @@ public class CarController : MonoBehaviour
         {
             if (i < 2)
             {
-                tires[i].transform.Rotate(Vector3.right, tireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
+                tires[i].transform.Rotate(Vector3.right, tireRotSpeed * carVelocityRatio * tireRotationMultipliers[i] * Time.deltaTime, Space.Self);
 
                 frontTireParents[i].transform.localEulerAngles = new Vector3(frontTireParents[i].transform.localEulerAngles.x, steeringAngle, frontTireParents[i].transform.localEulerAngles.z);
             }
@@ -363,9 +364,9 @@ public class CarController : MonoBehaviour
             {
                 // If we press gas, rotate more, else rotate with tirespeed
                 if (Mathf.Abs(moveInput) > Mathf.Abs(carVelocityRatio))
-                    tires[i].transform.Rotate(Vector3.right, tireRotSpeed * moveInput * Time.deltaTime, Space.Self);
+                    tires[i].transform.Rotate(Vector3.right, tireRotSpeed * moveInput * -tireRotationMultipliers[i] * Time.deltaTime, Space.Self);
                 else
-                    tires[i].transform.Rotate(Vector3.right, tireRotSpeed * carVelocityRatio * Time.deltaTime, Space.Self);
+                    tires[i].transform.Rotate(Vector3.right, tireRotSpeed * carVelocityRatio * tireRotationMultipliers[i] * Time.deltaTime, Space.Self);
             }
 
         }
