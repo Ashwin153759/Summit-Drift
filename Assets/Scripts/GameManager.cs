@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private string selectedCarName;
     private string currentMap;
     private Transform startRaceLocation;
+    private CountdownManager countdownManager;
 
     #endregion
 
@@ -91,19 +92,26 @@ public class GameManager : MonoBehaviour
 
     private void SetupRace(string mapName, string carName)
     {
-        lapTimer = FindObjectOfType<LapTimer>();
-        ghostPlayback = FindObjectOfType<GhostPlayback>();
-
         currentMap = mapName;
+
+        // Get the references of scene dependencies
         GameObject startRaceLocationObject = GameObject.Find("StartRaceLocation");
 
-        if (startRaceLocationObject == null)
-        {
-            Debug.LogError("Cannot find start point of race");
-            return;
-        }
+        lapTimer = FindObjectOfType<LapTimer>();
+        countdownManager = FindObjectOfType<CountdownManager>();
 
+        // Null Checks
+        if (startRaceLocationObject == null) Debug.LogError("Cannot find start point of race");
+        if (countdownManager == null) Debug.LogError("Cannot find Countdown Manager");
+        if (lapTimer == null) Debug.LogError("Cannot find laptimer");
+
+        // Spawn Player Car & Ghost
         InstantiateCarAndGhost(startRaceLocationObject, carName);
+
+        // Handle Inputs
+        inputActions.Enable(); // TODO: need to turn off reset btn when we are not in racemode
+        carController.SetControlsActive(false);
+
         InitializeRace();
     }
 
@@ -137,43 +145,23 @@ public class GameManager : MonoBehaviour
 
     private void InitializeRace()
     {
-        if (lapTimer != null && carController != null)
-        {
-            inputActions.Disable();
-            carController.SetControlsActive(false);
-
-            // Start the countdown before starting the race
-            StartCoroutine(StartRaceCountdown());
-        }
-    }
-
-    private IEnumerator StartRaceCountdown()
-    {
-        int countdownTime = 3;
-
-        while (countdownTime > 0)
-        {
-            // Play beep sound
-            AudioManager.instance.Play("Countdown");
-
-            yield return new WaitForSeconds(1f);
-            countdownTime--;
-        }
-
-        AudioManager.instance.Play("Countdown_finale");
-
-        // Start the actual race
-        StartRace();
+        // Start Countdown 
+        countdownManager.OnCountdownComplete += StartRace;
+        countdownManager.StartCountdown(); 
     }
 
     public void StartRace()
     {
+        countdownManager.OnCountdownComplete -= StartRace;
+
+        // Start the Lap Timer, and Recording Ghost
         lapTimer.StartLap();
         ghostRecorder.StartRecording();
 
-        inputActions.Enable();
+        // Enable Controls
         carController.SetControlsActive(true);
 
+        // Start Ghost Playback
         if (ghostRecorder != null && ghostPlayback != null)
         {
             GhostData bestLapData = ghostRecorder.LoadLapData(GetGhostFilePath(currentMap, selectedCarName));
@@ -195,7 +183,7 @@ public class GameManager : MonoBehaviour
     {
         GhostData recordedLap = ghostRecorder.StopRecording();
         lapTimer.StopLap();
-        inputActions.Disable();
+        
         carController.SetControlsActive(false);
 
         if (IsBestLap(recordedLap, mapName, carName))
