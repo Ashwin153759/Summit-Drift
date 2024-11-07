@@ -142,8 +142,31 @@ public class GameManager : MonoBehaviour
             inputActions.Disable();
             carController.SetControlsActive(false);
 
-            StartRace();
+            // Start the countdown before starting the race
+            StartCoroutine(StartRaceCountdown());
         }
+    }
+
+    private IEnumerator StartRaceCountdown()
+    {
+        int countdownTime = 3;
+
+        while (countdownTime > 0)
+        {
+            // Display the countdown time (can replace with UI text display)
+            Debug.Log(countdownTime);
+
+            // Play beep sound
+            //AudioManager.instance.Play("BeepSound");
+
+            yield return new WaitForSeconds(1f);
+            countdownTime--;
+        }
+
+        Debug.Log("Go!");
+
+        // Start the actual race
+        StartRace();
     }
 
     public void StartRace()
@@ -163,7 +186,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DelayedStartGhostPlayback(GhostData bestLapData, float interval)
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.11f);
         ghostPlayback.StartPlayback(bestLapData, interval);
     }
 
