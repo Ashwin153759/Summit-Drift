@@ -153,17 +153,14 @@ public class GameManager : MonoBehaviour
 
         while (countdownTime > 0)
         {
-            // Display the countdown time (can replace with UI text display)
-            Debug.Log(countdownTime);
-
             // Play beep sound
-            //AudioManager.instance.Play("BeepSound");
+            AudioManager.instance.Play("Countdown");
 
             yield return new WaitForSeconds(1f);
             countdownTime--;
         }
 
-        Debug.Log("Go!");
+        AudioManager.instance.Play("Countdown_finale");
 
         // Start the actual race
         StartRace();

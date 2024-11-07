@@ -10688,6 +10688,61 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 199a161157bf58a4381a73c2f2c7a363, type: 3}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[1].loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[1].name
+      value: Countdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 73122f28cfb5aac4a842b780ef1e65e4, type: 3}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[2].name
+      value: Countdown_finale
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[1].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[2].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[1].volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[2].volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526181930544537332, guid: b0e82c1c771dc674db376d52a0a80c14,
+        type: 3}
+      propertyPath: sounds.Array.data[1].isMusic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
