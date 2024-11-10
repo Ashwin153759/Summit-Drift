@@ -12,10 +12,18 @@ public class CountdownManager : MonoBehaviour
     [SerializeField] private int countdownTime = 3;
     private float fadeDuration = 0.3f;
 
+    // Arrays for light objects and materials (0 = Red, 1 = Yellow, 2 = Green)
+    [SerializeField] private GameObject[] trafficLights = new GameObject[3];
+    [SerializeField] private Material[] offMaterials = new Material[3];
+    [SerializeField] private Material[] onMaterials = new Material[3];
+
     private void Start()
     {
         countdownText.text = "";
         countdownText.alpha = 0;
+
+        // Set all lights to ON initially
+        SetAllTrafficLights();
     }
 
     public void StartCountdown()
@@ -39,7 +47,9 @@ public class CountdownManager : MonoBehaviour
 
             // Update countdown text
             countdownText.text = timeRemaining.ToString();
-            Debug.Log(timeRemaining);
+
+            // Change light color based on countdown number
+            UpdateTrafficLight(timeRemaining);
 
             yield return new WaitForSeconds(1f);
             timeRemaining--;
@@ -49,14 +59,62 @@ public class CountdownManager : MonoBehaviour
         AudioManager.instance.Play("Countdown_finale");
         countdownText.text = "GO!";
 
-        // Trigger the event to start the race
+        // Green Light
+        ResetTrafficLights();
+        SetLightMaterial(trafficLights[2], onMaterials[2]);
+
+        // Start Race Flag
         OnCountdownComplete?.Invoke();
 
         yield return new WaitForSeconds(0.5f);
 
-        // Fade out the text after "GO!"
-        yield return FadeTextAlpha(1, 0); // Fade out to transparent
+        // Fade out the text
+        yield return FadeTextAlpha(1, 0);
         countdownText.text = "";
+    }
+
+    private void UpdateTrafficLight(int countdownNumber)
+    {
+        // Turn on the appropriate light and turn off others
+        switch (countdownNumber)
+        {
+            case 3:
+                ResetTrafficLights();
+                break;
+
+            case 2:
+                ResetTrafficLights();
+                SetLightMaterial(trafficLights[0], onMaterials[0]); // Red light on
+                break;
+
+            case 1:
+                ResetTrafficLights();
+                SetLightMaterial(trafficLights[1], onMaterials[1]); // Yellow light on
+                break;
+        }
+    }
+
+    private void ResetTrafficLights()
+    {
+        SetLightMaterial(trafficLights[0], offMaterials[0]);
+        SetLightMaterial(trafficLights[1], offMaterials[1]);
+        SetLightMaterial(trafficLights[2], offMaterials[2]);
+    }
+
+    private void SetAllTrafficLights()
+    {
+        SetLightMaterial(trafficLights[0], onMaterials[0]);
+        SetLightMaterial(trafficLights[1], onMaterials[1]);
+        SetLightMaterial(trafficLights[2], onMaterials[2]);
+    }
+
+    private void SetLightMaterial(GameObject lightObject, Material material)
+    {
+        Renderer renderer = lightObject.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material = material;
+        }
     }
 
     private IEnumerator FadeTextAlpha(float startAlpha, float endAlpha)
@@ -67,7 +125,6 @@ public class CountdownManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeDuration);
             countdownText.alpha = alpha;
-            Debug.Log(alpha);
             yield return null;
         }
         countdownText.alpha = endAlpha;
