@@ -48,9 +48,23 @@ MonoBehaviour:
   - name: RockandRace
     clip: {fileID: 8300000, guid: 8d181660725d34743a457a5a5aa0ed28, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.5
     pitch: 1
     isMusic: 1
+    source: {fileID: 0}
+  - name: Countdown
+    clip: {fileID: 8300000, guid: 199a161157bf58a4381a73c2f2c7a363, type: 3}
+    loop: 0
+    volume: 0.3
+    pitch: 1
+    isMusic: 0
+    source: {fileID: 0}
+  - name: Countdown_finale
+    clip: {fileID: 8300000, guid: 73122f28cfb5aac4a842b780ef1e65e4, type: 3}
+    loop: 0
+    volume: 0.3
+    pitch: 1
+    isMusic: 0
     source: {fileID: 0}
   audioMixer: {fileID: 24100000, guid: 08f3765d11d9d9f4a8fa29e58d1fc647, type: 2}
   musicGroup: {fileID: 4425473318104591564, guid: 08f3765d11d9d9f4a8fa29e58d1fc647,

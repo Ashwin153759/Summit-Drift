@@ -140,6 +140,9 @@ public class GameManager : MonoBehaviour
 
             GameObject ghostInstance = Instantiate(ghostPrefab, startRaceLocationObject.transform.position, startRaceLocationObject.transform.rotation);
             ghostPlayback = ghostInstance.GetComponent<GhostPlayback>();
+
+            // Hide Ghost Before Start
+            ghostInstance.SetActive(false);
         }
     }
 
@@ -172,6 +175,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator DelayedStartGhostPlayback(GhostData bestLapData, float interval)
     {
         yield return new WaitForSeconds(0.11f);
+        // Turn Ghost On and Start Playing Back
+        ghostPlayback.gameObject.SetActive(true);
         ghostPlayback.StartPlayback(bestLapData, interval);
     }
 
