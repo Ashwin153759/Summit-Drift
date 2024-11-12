@@ -28,6 +28,7 @@ public class CarCameraEffects : MonoBehaviour
     private Coroutine collisionFOVCoroutine;
 
     private CarInputActions inputActions;
+    private Camera mainCamera;
 
     private void Awake()
     {
@@ -37,13 +38,22 @@ public class CarCameraEffects : MonoBehaviour
 
         virtualCamera.m_Lens.FieldOfView = defaultFOV;
 
+        // Handle Controls
         inputActions = new CarInputActions();
         inputActions.Car.LookBack.performed += _ => ActivateLookBack();
         inputActions.Car.LookBack.canceled += _ => DeactivateLookBack();
 
         inputActions.Enable();
 
+        // Get Main Camera in Scene
+        mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            Debug.LogError("Main camera not found. Ensure there is a camera tagged as MainCamera.");
+        }
+
         DeactivateLookBack();
+
     }
 
     public void StartBoostFOV()
@@ -84,7 +94,7 @@ public class CarCameraEffects : MonoBehaviour
         float normalizedIntensity = Mathf.Clamp01(collisionIntensity / maxCollisionIntensity);
         float targetFOV = Mathf.Lerp(defaultFOV, minCollisionFOV, normalizedIntensity);
 
-        Debug.Log($"Collision Intensity: {collisionIntensity}, Max: {maxCollisionIntensity}, Normalized: {normalizedIntensity}, Target FOV: {targetFOV}");
+        //Debug.Log($"Collision Intensity: {collisionIntensity}, Max: {maxCollisionIntensity}, Normalized: {normalizedIntensity}, Target FOV: {targetFOV}");
 
         if (collisionFOVCoroutine != null)
         {
@@ -150,15 +160,20 @@ public class CarCameraEffects : MonoBehaviour
     private void ActivateLookBack()
     {
         if (lookBackCamera != null)
+        {
             lookBackCamera.enabled = true;
+            mainCamera.enabled = false;
+        }
        
     }
 
     private void DeactivateLookBack()
     {
         if (lookBackCamera != null)
+        {
             lookBackCamera.enabled = false;
-        
+            mainCamera.enabled = true;
+        }
     }
 
     #endregion
