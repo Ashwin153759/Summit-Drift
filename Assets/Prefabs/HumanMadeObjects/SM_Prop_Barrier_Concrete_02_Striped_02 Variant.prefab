@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Barrier_Concrete_02_Striped_02 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1560523696118674, guid: d5c46984853775445b62013a1fd94250, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 123
+      objectReference: {fileID: 0}
     - target: {fileID: 4462645903060556, guid: d5c46984853775445b62013a1fd94250, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.85
