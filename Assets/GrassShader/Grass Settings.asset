@@ -29,7 +29,7 @@ MonoBehaviour:
   allowedBladesPerVertex: 4
   allowedSegmentsPerBlade: 4
   affectStrength: 1
-  topTint: {r: 0.07853025, g: 0.16981131, b: 0.064880736, a: 1}
+  topTint: {r: 0.20270449, g: 0.5849056, b: 0.1517444, a: 1}
   bottomTint: {r: 0.061251454, g: 0.18867922, b: 0.024029901, a: 1}
   drawBounds: 0
   minFadeDistance: 40
