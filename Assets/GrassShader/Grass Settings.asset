@@ -26,7 +26,7 @@ MonoBehaviour:
   MaxHeight: 0.277
   windSpeed: 1.5
   windStrength: 0.05
-  allowedBladesPerVertex: 4
+  allowedBladesPerVertex: 3
   allowedSegmentsPerBlade: 4
   affectStrength: 1
   topTint: {r: 0.20270449, g: 0.5849056, b: 0.1517444, a: 1}
