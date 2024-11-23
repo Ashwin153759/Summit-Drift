@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4808478113730291177}
   - component: {fileID: 3093974327190941438}
   - component: {fileID: 1724504794133400000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Sign_Stop_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

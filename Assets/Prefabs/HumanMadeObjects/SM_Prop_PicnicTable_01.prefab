@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7359829367652079640}
   - component: {fileID: 1412819542030691582}
   - component: {fileID: 3083055055242168421}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_PicnicTable_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

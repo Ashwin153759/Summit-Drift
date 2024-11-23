@@ -40403,7 +40403,7 @@ MonoBehaviour:
     type: 3}
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 567
   drivableLayer:
     serializedVersion: 2
     m_Bits: 64

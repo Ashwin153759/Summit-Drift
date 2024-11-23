@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6204387049459980783}
   - component: {fileID: 8407101223319454792}
   - component: {fileID: 1397044840331765891}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Sign_GiveWay_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

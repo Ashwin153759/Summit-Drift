@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2494032967402427082}
   - component: {fileID: 1574562461229636455}
   - component: {fileID: 1456173782691293913}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SM_Prop_Barrier_Rail_Bend_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
