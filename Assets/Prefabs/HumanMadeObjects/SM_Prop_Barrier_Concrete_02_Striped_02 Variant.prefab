@@ -13,6 +13,10 @@ PrefabInstance:
       value: SM_Prop_Barrier_Concrete_02_Striped_02 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1560523696118674, guid: d5c46984853775445b62013a1fd94250, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1560523696118674, guid: d5c46984853775445b62013a1fd94250, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 123
       objectReference: {fileID: 0}
@@ -70,6 +74,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4462645903060556, guid: d5c46984853775445b62013a1fd94250, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23863061956189276, guid: d5c46984853775445b62013a1fd94250,
+        type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 23863061956189276, guid: d5c46984853775445b62013a1fd94250,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:

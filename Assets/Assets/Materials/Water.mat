@@ -233,7 +233,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WaveAmplitude: 0.8
+    - _WaveAmplitude: 0.5
     - _WaveCount: 32
     - _WaveEffectsBoost: 0.2
     - _WaveEndDistance: 100
