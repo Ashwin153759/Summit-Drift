@@ -32,9 +32,9 @@ MonoBehaviour:
   adjustHeightMax: 2
   reprojectOffset: 1
   rangeR: 0
-  rangeG: 0
+  rangeG: 0.6
   rangeB: 0
-  AdjustedColor: {r: 1, g: 1, b: 1, a: 1}
+  AdjustedColor: {r: 0.22966558, g: 0.5754717, b: 0.11672304, a: 1}
   paintBlockMask:
     serializedVersion: 2
     m_Bits: 576
