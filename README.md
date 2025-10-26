@@ -50,7 +50,8 @@ Select from three distinct cars, each offering a unique driving experience:
 
 ### Made by:
 - **Michael** – Physics & Game Logic, Artistic Approach, 3D Modelling (Track & Some Props), Engine Sounds
+- **Ashwin** – Game Logic, 3D Modelling, Animations
 
 ### Special Thanks:
 - **TOSHIII** – Providing an awesome music track to enhance the game's atmosphere 🎶
-- **Ashwin** – Helping with early on prototyping
+
